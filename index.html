@@ -610,8 +610,8 @@
       </div>
 
     <div class="landing-btns">
-      <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
-      <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
+      <button class="btn-primary btn-request" onclick="enterDashboard('request')">Request Blood</button>
+      <button class="btn-primary btn-donate" onclick="enterDashboard('donate')"> Donate Blood</button>
     </div>
   </div>
   <div class="scroll-hint">▼ Scroll to explore</div>
@@ -688,10 +688,10 @@
       <div class="page-section active" id="section-home">
         <div class="section-header">
           <div>
-            <div class="section-title">Welcome back, Aryan 👋</div>
+            <div class="section-title">Welcome back, Aryan </div>
             <div class="section-sub">Here's what's happening across RaktSetu today.</div>
           </div>
-          <button class="btn btn-red btn-sm" onclick="switchSection('request')">🆘 Emergency Request</button>
+          <button class="btn btn-red btn-sm" onclick="switchSection('request')"> Emergency Request</button>
         </div>
 
         <div class="stats-grid">
@@ -723,13 +723,13 @@
 
         <div class="two-col">
           <div class="card">
-            <div class="card-title">⚡ Live Activity</div>
+            <div class="card-title"> Live Activity</div>
             <div class="feed-list" id="dashFeed">
               <!-- populated by JS -->
             </div>
           </div>
           <div class="card">
-            <div class="card-title">🗺️ Blood Availability</div>
+            <div class="card-title">Blood Availability</div>
             <div id="bloodAvailChart"></div>
           </div>
         </div>
@@ -739,14 +739,14 @@
       <div class="page-section" id="section-request">
         <div class="section-header">
           <div>
-            <div class="section-title">🆘 Request Blood</div>
+            <div class="section-title">Request Blood</div>
             <div class="section-sub">Fill the form below — we'll find the best donors near you.</div>
           </div>
         </div>
 
         <div class="two-col">
           <div class="card">
-            <div class="card-title">📋 Request Details</div>
+            <div class="card-title"> Request Details</div>
             <div style="display:flex;flex-direction:column;gap:1.1rem">
               <div class="form-grid">
                 <div class="form-group">
@@ -788,7 +788,7 @@
               </div>
 
               <button class="btn btn-red" onclick="submitRequest()">
-                <span id="reqBtnText">🔍 Find Matching Donors</span>
+                <span id="reqBtnText"> Find Matching Donors</span>
                 <div class="loading-spinner" id="reqSpinner"></div>
               </button>
             </div>
@@ -796,9 +796,13 @@
 
           <div>
             <div class="card" id="donorResultsCard" style="display:none">
-              <div class="match-banner" id="matchBanner">⭐ Best match found near you!</div>
+              <div class="match-banner" id="matchBanner"> Best match found near you!</div>
+              <button class="btn btn-green btn-sm" onclick="downloadPDF()" style="margin-bottom:1rem">
+  📄 Download Donor Report
+</button>
               <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
               <div class="donors-grid" id="donorsList"></div>
+              
             </div>
             <div class="card" id="noDonorsCard" style="display:none">
               <div class="empty-state">
@@ -811,7 +815,7 @@
         </div>
       </div>
       <div class="card" id="banksResultCard" style="display:none">
-  <div class="card-title">🏥 Available Blood Banks</div>
+  <div class="card-title"> Available Blood Banks</div>
   <div class="banks-grid" id="matchingBanks"></div>
 </div>
 
@@ -819,14 +823,14 @@
       <div class="page-section" id="section-donate">
         <div class="section-header">
           <div>
-            <div class="section-title">🩸 Register as Donor</div>
+            <div class="section-title"> Register as Donor</div>
             <div class="section-sub">Your one act can save up to 3 lives.</div>
           </div>
         </div>
 
         <div class="two-col">
           <div class="card">
-            <div class="card-title">📝 Donor Registration</div>
+            <div class="card-title"> Donor Registration</div>
             <div style="display:flex;flex-direction:column;gap:1.1rem">
               <div class="form-grid">
                 <div class="form-group">
@@ -870,7 +874,7 @@
               </div>
 
               <button class="btn btn-red" onclick="submitDonate()">
-                <span id="donBtnText">❤️ Register as Donor</span>
+                <span id="donBtnText"> Register as Donor</span>
                 <div class="loading-spinner" id="donSpinner"></div>
               </button>
             </div>
@@ -883,7 +887,7 @@
           </div>
 
           <div class="card">
-            <div class="card-title">💡 Why Donate?</div>
+            <div class="card-title"> Why Donate?</div>
             <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.25rem">
               <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:var(--red-ultra);border-radius:10px">
                 <span style="font-size:1.5rem">🌍</span>
@@ -910,7 +914,7 @@
       <div class="page-section" id="section-banks">
         <div class="section-header">
           <div>
-            <div class="section-title">🏥 Nearby Blood Banks</div>
+            <div class="section-title">Nearby Blood Banks</div>
             <div class="section-sub">Verified blood banks available in your area.</div>
           </div>
           <button class="btn btn-outline btn-sm">📍 Change Location</button>
@@ -922,7 +926,7 @@
       <div class="page-section" id="section-feed">
         <div class="section-header">
           <div>
-            <div class="section-title">⚡ Live Activity Feed</div>
+            <div class="section-title"> Live Activity Feed</div>
             <div class="section-sub">Real-time blood donation activity across India.</div>
           </div>
           <div style="display:flex;align-items:center;gap:.5rem">
@@ -937,7 +941,7 @@
 
       <!-- ────────────── PROFILE ────────────── -->
       <div class="page-section" id="section-profile">
-        <div class="section-title" style="margin-bottom:1.25rem">👤 My Profile</div>
+        <div class="section-title" style="margin-bottom:1.25rem"> My Profile</div>
 
         <div class="profile-header-card">
           <div class="profile-avatar-lg">AK</div>
@@ -950,10 +954,10 @@
 
         <div class="two-col">
           <div class="card">
-            <div class="card-title">🩸 Donation History</div>
+            <div class="card-title"> Donation History</div>
             <div class="history-list">
               <div class="history-item">
-                <div class="history-icon">🩸</div>
+                <div class="history-icon"></div>
                 <div class="history-info">
                   <div class="history-title">Donated O+ in Delhi</div>
                   <div class="history-detail">AIIMS Blood Bank · Jan 15, 2025</div>
@@ -961,7 +965,7 @@
                 <span class="history-badge hb-donate">Donated</span>
               </div>
               <div class="history-item">
-                <div class="history-icon">🩸</div>
+                <div class="history-icon"></div>
                 <div class="history-info">
                   <div class="history-title">Donated O+ in Noida</div>
                   <div class="history-detail">Fortis Hospital · Oct 3, 2024</div>
@@ -988,7 +992,7 @@
           </div>
 
           <div class="card">
-            <div class="card-title">🆘 Request History</div>
+            <div class="card-title"> Request History</div>
             <div class="history-list">
               <div class="history-item">
                 <div class="history-icon">🚨</div>
@@ -1009,7 +1013,7 @@
             </div>
 
             <div class="divider"></div>
-            <div class="card-title" style="margin-bottom:.75rem">⚙️ Settings</div>
+            <div class="card-title" style="margin-bottom:.75rem"> Settings</div>
             <div style="display:flex;flex-direction:column;gap:.6rem">
               <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
                 <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Available to donate</span>
@@ -1106,14 +1110,195 @@ console.log("🔥 Firebase Connected");
 </script>
 
 <script>
-// ──────────────── MOCK DATA ────────────────
-const mockDonors = [
-  { name:"Rahul Kumar", blood:"O+", city:"Delhi", phone:"98765-43210", lastDon:"2 months ago", verified:true },
-  { name:"Priya Sharma", blood:"O+", city:"Delhi", phone:"87654-32109", lastDon:"3 months ago", verified:true },
-  { name:"Amit Singh", blood:"O-", city:"Noida", phone:"76543-21098", lastDon:"1 month ago", verified:false },
-  { name:"Sneha Patel", blood:"A+", city:"Delhi", phone:"65432-10987", lastDon:"45 days ago", verified:true },
-  { name:"Ravi Verma", blood:"B+", city:"Ghaziabad", phone:"54321-09876", lastDon:"6 weeks ago", verified:true },
-  { name:"Kavya Nair", blood:"AB+", city:"Delhi", phone:"43210-98765", lastDon:"2 weeks ago", verified:false },
+ const mockDonors = [
+  { 
+    name:"Rahul Kumar",
+    blood:"O+",
+    city:"Delhi",
+    phone:"98765-43210",
+    lastDon:"2 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 14.2,
+      bloodPressure: "120/80",
+      weight: 70,
+      lastDonationDays: 65,
+      eligibility: true,
+      status: "Excellent",
+      risk: null,
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Jan 2026"
+    }
+  },
+
+  { 
+    name:"Priya Sharma",
+    blood:"O+",
+    city:"Delhi",
+    phone:"87654-32109",
+    lastDon:"3 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 10.8,
+      bloodPressure: "110/70",
+      weight: 52,
+      lastDonationDays: 40,
+      eligibility: false,
+      status: "Low Hemoglobin",
+      risk: "Hemoglobin below safe level",
+      diseases: ["Anemia"],
+      hydration: "Average",
+      lastCheckup: "Feb 2026"
+    }
+  },
+
+  { 
+    name:"Amit Verma",
+    blood:"O+",
+    city:"Noida",
+    phone:"91234-56789",
+    lastDon:"4 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 15.1,
+      bloodPressure: "118/78",
+      weight: 75,
+      lastDonationDays: 120,
+      eligibility: true,
+      status: "Fit",
+      risk: null,
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Dec 2025"
+    }
+  },
+
+  { 
+    name:"Sneha Kapoor",
+    blood:"O+",
+    city:"Gurgaon",
+    phone:"99887-66554",
+    lastDon:"20 days ago",
+    verified:true,
+    health: {
+      hemoglobin: 13.5,
+      bloodPressure: "122/82",
+      weight: 60,
+      lastDonationDays: 20,
+      eligibility: false,
+      status: "Recently Donated",
+      risk: "Recovery period not completed",
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Mar 2026"
+    }
+  },
+
+  { 
+    name:"Karan Mehta",
+    blood:"O+",
+    city:"Delhi",
+    phone:"90909-11223",
+    lastDon:"5 months ago",
+    verified:false,
+    health: {
+      hemoglobin: 13.8,
+      bloodPressure: "125/85",
+      weight: 80,
+      lastDonationDays: 150,
+      eligibility: true,
+      status: "Good",
+      risk: null,
+      diseases: [],
+      hydration: "Average",
+      lastCheckup: "Nov 2025"
+    }
+  },
+
+  { 
+    name:"Anjali Gupta",
+    blood:"O+",
+    city:"Faridabad",
+    phone:"93456-77889",
+    lastDon:"6 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 12.5,
+      bloodPressure: "130/90",
+      weight: 58,
+      lastDonationDays: 180,
+      eligibility: false,
+      status: "High Blood Pressure",
+      risk: "BP above safe donation limit",
+      diseases: ["Hypertension"],
+      hydration: "Low",
+      lastCheckup: "Jan 2026"
+    }
+  },
+
+  { 
+    name:"Rohit Singh",
+    blood:"O+",
+    city:"Delhi",
+    phone:"98700-12345",
+    lastDon:"7 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 14.8,
+      bloodPressure: "119/79",
+      weight: 78,
+      lastDonationDays: 210,
+      eligibility: true,
+      status: "Strong",
+      risk: null,
+      diseases: [],
+      hydration: "Excellent",
+      lastCheckup: "Feb 2026"
+    }
+  },
+
+  { 
+    name:"Meera Iyer",
+    blood:"O+",
+    city:"Noida",
+    phone:"98111-22334",
+    lastDon:"1 month ago",
+    verified:true,
+    health: {
+      hemoglobin: 12.9,
+      bloodPressure: "115/75",
+      weight: 55,
+      lastDonationDays: 30,
+      eligibility: false,
+      status: "Too Soon",
+      risk: "Minimum gap not met",
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Mar 2026"
+    }
+  },
+
+  { 
+    name:"Arjun Nair",
+    blood:"O+",
+    city:"Gurgaon",
+    phone:"90012-34567",
+    lastDon:"8 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 15.3,
+      bloodPressure: "117/76",
+      weight: 82,
+      lastDonationDays: 240,
+      eligibility: true,
+      status: "Excellent",
+      risk: null,
+      diseases: [],
+      hydration: "Excellent",
+      lastCheckup: "Jan 2026"
+    }
+  }
 ];
 
 const bloodBanks = [
@@ -1181,8 +1366,8 @@ function renderBanks() {
         <div class="bank-avail">${b.avail.map(a=>`<span class="avail-badge">${a}</span>`).join('')}</div>
       </div>
       <div style="display:flex;gap:.6rem">
-        <button class="btn btn-red btn-sm" style="flex:1">📞 Call</button>
-        <button class="btn btn-ghost btn-sm" style="flex:1">🗺️ Visit</button>
+        <button class="btn btn-red btn-sm" style="flex:1"> Call</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1">Visit</button>
       </div>
     </div>
   `).join('');
@@ -1191,7 +1376,7 @@ function renderBanks() {
 function renderDonors(donors, requestCity, isEmergency) {
   const el = document.getElementById('donorsList');
   document.getElementById('donorCount').textContent = donors.length + ' found';
-  if (!donors.length) { el.innerHTML = ''; return; }
+  if (!donors.length) { el.innerHTML =   ''; return; }
   function getMatchingBanks(blood) {
   return bloodBanks.filter(b => b.avail.includes(blood));
 }
@@ -1225,24 +1410,110 @@ function renderMatchingBanks(banks) {
     const isBest = i === 0;
     const isEmerg = isEmergency;
     return `
-      <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
-        <div class="donor-header">
-          <div class="donor-avatar">${d.name.charAt(0)}</div>
-          <div>
-            <div class="donor-name">${d.name} ${d.verified ? '✓' : ''}</div>
-            <div class="donor-meta">Last donated: ${d.lastDon}</div>
-          </div>
-        </div>
-        <div class="donor-badges">
-          <span class="badge badge-blood">🩸 ${d.blood}</span>
-          <span class="badge badge-city">📍 ${d.city}</span>
-          ${nearYou ? '<span class="badge badge-near">📍 Near You</span>' : ''}
-        </div>
-        <div class="donor-actions">
-          <button class="btn btn-red btn-sm" style="flex:1" onclick="callDonor('${d.phone}')">📞 Call</button>
-          <button class="btn btn-ghost btn-sm" style="flex:1">💬 Message</button>
-        </div>
+       <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
+  
+  <div class="donor-header">
+    <div class="donor-avatar">${d.name.charAt(0)}</div>
+    <div>
+      <div class="donor-name">
+        ${d.name} ${d.verified ? '✓' : ''}
       </div>
+      <div class="donor-meta">Last donated: ${d.lastDon}</div>
+    </div>
+  </div>
+
+  <div class="donor-badges">
+    <span class="badge badge-blood">🩸 ${d.blood}</span>
+    <span class="badge badge-city">📍 ${d.city}</span>
+    ${nearYou ? '<span class="badge badge-near">📍 Near You</span>' : ''}
+  </div>
+  <div style="
+  padding:.4rem .7rem;
+  border-radius:8px;
+  font-size:.75rem;
+  font-weight:600;
+  margin-bottom:.6rem;
+  display:inline-block;
+  background:${d.health.eligibility ? '#dcfce7' : '#fee2e2'};
+  color:${d.health.eligibility ? '#166534' : '#991b1b'};
+">
+  ${d.health.eligibility ? '✅ Eligible to Donate' : '❌ Not Eligible'}
+</div>
+ 
+  
+
+  <!-- 🔽 BUTTON -->
+  <button class="btn btn-outline btn-sm" onclick="toggleHealth(${i})">
+     View Health Details
+  </button>
+
+  <!-- 🔽 HIDDEN PANEL -->
+   <div id="health-${i}" style="
+  display:none;
+  margin-top:.9rem;
+  padding:1rem;
+  background:#f9fafb;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-size:.8rem;
+  line-height:1.5;
+">
+
+  <div style="font-weight:700;margin-bottom:.6rem;color:#111827">
+     Medical Summary
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+
+    <div> Hemoglobin</div>
+    <div><strong>${d.health.hemoglobin} g/dL</strong></div>
+
+    <div>Blood Pressure</div>
+    <div><strong>${d.health.bloodPressure}</strong></div>
+
+    <div>Weight</div>
+    <div><strong>${d.health.weight} kg</strong></div>
+
+    <div>Last Donation</div>
+    <div><strong>${d.health.lastDonationDays} days ago</strong></div>
+
+    <div> Hydration</div>
+    <div><strong>${d.health.hydration}</strong></div>
+
+    <div>Last Checkup</div>
+    <div><strong>${d.health.lastCheckup}</strong></div>
+
+  </div>
+
+  <div style="margin-top:.7rem">
+     Overall Status: 
+    <strong>${d.health.status}</strong>
+  </div>
+
+  ${
+    d.health.diseases.length
+      ? `<div style="margin-top:.5rem;color:#b91c1c">
+            Conditions: ${d.health.diseases.join(', ')}
+         </div>`
+      : ''
+  }
+
+  ${
+    d.health.risk
+      ? `<div style="margin-top:.5rem;color:#dc2626;font-weight:600">
+            Risk: ${d.health.risk}
+         </div>`
+      : ''
+  }
+
+</div>
+
+  <div class="donor-actions" style="margin-top:.7rem">
+    <button class="btn btn-red btn-sm" style="flex:1" onclick="callDonor('${d.phone}')">📞 Call</button>
+    <button class="btn btn-ghost btn-sm" style="flex:1"> Message</button>
+  </div>
+
+</div>
     `;
   }).join('');
 }
@@ -1326,11 +1597,12 @@ function submitRequest() {
   setTimeout(() => {
     hideProgress();
     toggleBtnLoading('reqBtnText','reqSpinner',false);
-    document.getElementById('reqBtnText').textContent = '✅ Donors Found!';
+    document.getElementById('reqBtnText').textContent = ' Donors Found!';
 
-    const matching = mockDonors.filter(d =>
-      d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')
-    );
+     const matching = mockDonors.filter(d =>
+  (d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')) 
+  && d.health.eligibility
+);
     
     const isEmerg = urgency === 'emergency';
 
@@ -1341,8 +1613,8 @@ function submitRequest() {
       resultCard.style.display = 'block';
       noCard.style.display = 'none';
       document.getElementById('matchBanner').textContent = isEmerg
-        ? '🚨 Emergency mode — prioritizing nearest donors'
-        : '⭐ Best match found near you!';
+        ? 'Emergency mode — prioritizing nearest donors'
+        : ' Best match found near you!';
       renderDonors(matching, city, isEmerg);
     } else {
       resultCard.style.display = 'none';
@@ -1484,5 +1756,7 @@ window.onload = () => {
   loadDonors();
 };
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
