@@ -35,8 +35,10 @@
   #page-landing {
     min-height: 100vh; display: flex; flex-direction: column; align-items: center;
     justify-content: center; position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 40%, #dc2626 70%, #ef4444 100%);
-  }
+     
+  background: transparent;
+}
+  
   #page-landing::before {
     content: '';
     position: absolute; inset: 0;
@@ -209,6 +211,17 @@
   .content-area { padding: 2rem; flex: 1; animation: fadeUp .4s ease both; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 
+  .rotator {
+  position: absolute;
+  inset: 0;
+  animation: rotateOrbit 20s linear infinite;
+}
+
+@keyframes rotateOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
   /* ── CARDS ─────────────────────────────────────────────────── */
   .card {
     background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm);
@@ -291,9 +304,9 @@
   }
   .donor-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--red-light); }
   .donor-card.emergency { border-color: var(--red-vivid); }
-  .donor-card.emergency::before { content:'🚨 EMERGENCY'; position:absolute; top:0; right:0; background:var(--red-vivid); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:0 14px 0 8px; letter-spacing:.06em; }
+  .donor-card.emergency::before { content:' EMERGENCY'; position:absolute; top:0; right:0; background:var(--red-vivid); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:0 14px 0 8px; letter-spacing:.06em; }
   .donor-card.best-match { border-color: #d97706; }
-  .donor-card.best-match::after { content:'⭐ Best Match'; position:absolute; top:0; left:0; background:linear-gradient(90deg,#d97706,#f59e0b); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:14px 0 8px 0; }
+  .donor-card.best-match::after { content:' Best Match'; position:absolute; top:0; left:0; background:linear-gradient(90deg,#d97706,#f59e0b); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:14px 0 8px 0; }
   .donor-header { display: flex; align-items: center; gap: .85rem; margin-bottom: 1rem; }
   .donor-avatar {
     width: 46px; height: 46px; border-radius: 50%;
@@ -349,7 +362,7 @@
   .feed-text { font-size: .86rem; color: var(--gray-700); font-weight: 500; }
   .feed-time { font-size: .72rem; color: var(--gray-400); margin-top: .15rem; }
   .feed-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--red-vivid); animation: pulse-ring 1.4s cubic-bezier(.455,.03,.515,.955) infinite; }
-  @keyframes pulse-ring { 0%{box-shadow:0 0 0 0 rgba(220,38,38,.5)} 70%{box-shadow:0 0 0 8px rgba(220,38,38,0)} 100%{box-shadow:0 0 0 0 rgba(220,38,38,0)} }
+  @keyframes pulse-ring { 0%{box-shadow:0 0 0 0 rgba(223, 39, 39, 0.5)} 70%{box-shadow:0 0 0 8px rgba(220,38,38,0)} 100%{box-shadow:0 0 0 0 rgba(220,38,38,0)} }
 
   /* ── PROFILE ─────────────────────────────────────────────────── */
   .profile-header-card {
@@ -358,7 +371,7 @@
     display: flex; align-items: center; gap: 1.5rem; position: relative; overflow: hidden;
   }
   .profile-header-card::after {
-    content: '🩸'; position: absolute; right: 2rem; bottom: -10px;
+    content: ; position: absolute; right: 2rem; bottom: -10px;
     font-size: 6rem; opacity: .12;
   }
   .profile-avatar-lg {
@@ -459,6 +472,95 @@
 
   /* ── PROGRESS BAR ────────────────────────────────────────────── */
   .top-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--red-vivid); width: 0; z-index: 9998; transition: width .3s ease; border-radius: 0 2px 2px 0; }
+
+  /* your existing CSS */
+
+  /* ── LOGIN ANIMATION STYLES ── */
+  body {
+    background: linear-gradient(135deg, #7f1d1d, #dc2626, #fee2e2, #ffffff);
+    background-size: 300% 300%;
+    animation: gradientFlow 8s ease infinite;
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .blood-orbit {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 2rem auto;
+    animation: rotateOrbit 20s linear infinite;
+     
+  }
+
+  @keyframes rotateOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .center-bubble {
+    position: absolute;
+    top: 61%;
+    left: 59%;
+    
+    
+  position: absolute;
+   
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    background: #dc2626;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+    box-shadow: 0 0 25px rgba(220,38,38,0.6);
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+  }
+ 
+   
+
+   .orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background: white;
+  color: #b91c1c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  transform-origin: center;
+}
+
+.orbit1 { transform: rotate(0deg) translate(120px) rotate(0deg); }
+.orbit2 { transform: rotate(51deg) translate(120px) rotate(-51deg); }
+.orbit3 { transform: rotate(102deg) translate(120px) rotate(-102deg); }
+.orbit4 { transform: rotate(153deg) translate(120px) rotate(-153deg); }
+.orbit5 { transform: rotate(204deg) translate(120px) rotate(-204deg); }
+.orbit6 { transform: rotate(255deg) translate(120px) rotate(-255deg); }
+.orbit7 { transform: rotate(306deg) translate(120px) rotate(-306deg); }
+
 </style>
 </head>
 <body>
@@ -479,13 +581,27 @@
   <div class="landing-orb orb2"></div>
   <div class="landing-orb orb3"></div>
   <div class="landing-content">
-    <div class="landing-logo"><span>🩸</span> RaktSetu</div>
-    <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
+     <div class="blood-orbit">
+    <div class="center-bubble">O+</div>
+
+    <div class="orbit orbit1">A+</div>
+    <div class="orbit orbit2">B+</div>
+    <div class="orbit orbit3">AB+</div>
+    <div class="orbit orbit4">O-</div>
+    <div class="orbit orbit5">A-</div>
+    <div class="orbit orbit6">B-</div>
+    <div class="orbit orbit7">AB-</div></div>
+   
     <div class="landing-stats">
+
       <div class="stat-item"><div class="stat-num">12,400+</div><div class="stat-label">Donors</div></div>
       <div class="stat-item"><div class="stat-num">8,200+</div><div class="stat-label">Lives Saved</div></div>
       <div class="stat-item"><div class="stat-num">340+</div><div class="stat-label">Cities</div></div>
     </div>
+      <div class="landing-logo"><span></span> RaktSetu</div>
+    <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
+  
+
     <div class="landing-btns">
       <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
       <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
@@ -500,7 +616,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="sidebar-brand-icon">🩸</div>
+      <div class="sidebar-brand-icon"></div>
       <div>
         <div class="sidebar-brand-name">RaktSetu</div>
         <div class="sidebar-brand-tagline">Blood Donation Platform</div>
@@ -510,28 +626,28 @@
     <nav class="sidebar-nav">
       <div class="nav-section-title">Main</div>
       <button class="nav-item active" id="nav-home" onclick="switchSection('home')">
-        <span class="nav-icon">🏠</span> Dashboard
+        <span class="nav-icon"></span> Dashboard
       </button>
       <button class="nav-item" id="nav-request" onclick="switchSection('request')">
-        <span class="nav-icon">🆘</span> Request Blood
+        <span class="nav-icon"></span> Request Blood
         <span class="nav-badge" id="urgentBadge">3</span>
       </button>
       <button class="nav-item" id="nav-donate" onclick="switchSection('donate')">
-        <span class="nav-icon">🩸</span> Donate Blood
+        <span class="nav-icon"></span> Donate Blood
       </button>
 
       <div class="nav-section-title" style="margin-top:.75rem">Discover</div>
       <button class="nav-item" id="nav-banks" onclick="switchSection('banks')">
-        <span class="nav-icon">🏥</span> Blood Banks
+        <span class="nav-icon"></span> Blood Banks
       </button>
       <button class="nav-item" id="nav-feed" onclick="switchSection('feed')">
-        <span class="nav-icon">⚡</span> Live Feed
+        <span class="nav-icon"></span> Live Feed
         <span class="nav-badge" style="background:#16a34a">Live</span>
       </button>
 
       <div class="nav-section-title" style="margin-top:.75rem">Account</div>
       <button class="nav-item" id="nav-profile" onclick="switchSection('profile')">
-        <span class="nav-icon">👤</span> My Profile
+        <span class="nav-icon"></span> My Profile
       </button>
     </nav>
 
@@ -553,7 +669,7 @@
       <button class="topbar-btn menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
       <div class="topbar-title" id="topbarTitle">Dashboard</div>
       <div class="topbar-search">
-        <span>🔍</span>
+        <span></span>
         <input type="text" placeholder="Search donors, cities…">
       </div>
       <button class="topbar-btn" onclick="enterLanding()">🚪</button>
@@ -687,6 +803,10 @@
           </div>
         </div>
       </div>
+      <div class="card" id="banksResultCard" style="display:none">
+  <div class="card-title">🏥 Available Blood Banks</div>
+  <div class="banks-grid" id="matchingBanks"></div>
+</div>
 
       <!-- ────────────── DONATE BLOOD ────────────── -->
       <div class="page-section" id="section-donate">
@@ -1023,6 +1143,34 @@ function renderDonors(donors, requestCity, isEmergency) {
   const el = document.getElementById('donorsList');
   document.getElementById('donorCount').textContent = donors.length + ' found';
   if (!donors.length) { el.innerHTML = ''; return; }
+  function getMatchingBanks(blood) {
+  return bloodBanks.filter(b => b.avail.includes(blood));
+}
+
+function renderMatchingBanks(banks) {
+  const container = document.getElementById('matchingBanks');
+
+  if (!banks.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🏥</div>
+        <div class="empty-title">No blood banks found</div>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = banks.map(b => `
+    <div class="bank-card">
+      <div class="bank-name">${b.name}</div>
+      <div class="bank-loc">📍 ${b.loc}</div>
+      <div class="bank-hours">🟢 ${b.hours}</div>
+      <div class="bank-avail">
+        ${b.avail.map(a => `<span class="avail-badge">${a}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
   el.innerHTML = donors.map((d, i) => {
     const nearYou = d.city.toLowerCase() === requestCity.toLowerCase();
     const isBest = i === 0;
@@ -1134,6 +1282,7 @@ function submitRequest() {
     const matching = mockDonors.filter(d =>
       d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')
     );
+    
     const isEmerg = urgency === 'emergency';
 
     const resultCard = document.getElementById('donorResultsCard');
