@@ -371,7 +371,8 @@
     display: flex; align-items: center; gap: 1.5rem; position: relative; overflow: hidden;
   }
   .profile-header-card::after {
-    content: ; position: absolute; right: 2rem; bottom: -10px;
+    content: ""; position: absolute; right: 2rem; bottom: -10px;
+    content: ""; position: absolute; right: 2rem; bottom: -10px;
     font-size: 6rem; opacity: .12;
   }
   .profile-avatar-lg {
@@ -601,13 +602,19 @@
       <div class="landing-logo"><span></span> RaktSetu</div>
     <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
   
+     <div style="margin-top:2rem; max-width:300px; margin-inline:auto;">
+         <input id="email" placeholder="Email" class="form-control" style="margin-bottom:.5rem">
+         <input id="password" type="password" placeholder="Password" class="form-control" style="margin-bottom:.5rem">
+
+        <button class="btn btn-red" onclick="signUp()">Sign Up</button>
+         <button class="btn btn-ghost" onclick="login()" style="margin-top:.5rem">Login</button>
+      </div>
 
     <div class="landing-btns">
       <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
       <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
     </div>
   </div>
-  <div class="scroll-hint">▼ Scroll to explore</div>
 </div>
 
 <!-- ══════════════════ DASHBOARD ════════════════════ -->
@@ -672,7 +679,6 @@
         <span></span>
         <input type="text" placeholder="Search donors, cities…">
       </div>
-      <button class="topbar-btn red" onclick="showNotif()">🔔</button>
       <button class="topbar-btn" onclick="enterLanding()">🚪</button>
     </div>
 
@@ -1037,6 +1043,28 @@
   </div><!-- /main-content -->
 </div><!-- /page-dashboard -->
 
+<!-- Firebase FIRST -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+<!-- Firebase CONFIG -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAEtyVYXupFGhOUhniRzifEy_UHSs2DI4U",
+  authDomain: "raktsetu-84ff7.firebaseapp.com",
+  projectId: "raktsetu-84ff7",
+  storageBucket: "raktsetu-84ff7.firebasestorage.app",
+  messagingSenderId: "642732989707",
+  appId: "1:642732989707:web:a058e8173f17cb3391960e"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+console.log("🔥 Firebase Connected");
+</script>
+
 <script>
 // ──────────────── MOCK DATA ────────────────
 const mockDonors = [
@@ -1238,7 +1266,6 @@ function enterDashboard(section) {
     document.getElementById('page-dashboard').classList.add('active');
     switchSection(section || 'home');
     hideProgress();
-    setTimeout(() => showNotif(), 3000);
   }, 600);
 }
 function enterLanding() {
@@ -1287,17 +1314,51 @@ function submitRequest() {
 
 function submitDonate() {
   const name = document.getElementById('don-name').value.trim();
-  if (!name) { document.getElementById('don-name').focus(); return; }
+  const city = document.getElementById('don-city').value.trim();
+  const phone = document.getElementById('don-phone').value.trim();
+  const blood = document.querySelector('input[name="don-bg"]:checked')?.value;
 
-  showProgress();
-  toggleBtnLoading('donBtnText','donSpinner',true);
-  setTimeout(() => {
-    hideProgress();
-    toggleBtnLoading('donBtnText','donSpinner',false);
-    document.getElementById('donBtnText').textContent = '✅ Registered!';
-    document.getElementById('donSuccessMsg').classList.add('show');
-    addFeedItem('green', `✅ New donor ${name} just registered!`, 'Just now');
-  }, 1800);
+  if (!name || !city || !phone) {
+    alert("❌ Fill all fields");
+    return;
+  }
+
+  db.collection("donor").add({
+    name: name,
+    city: city,
+    phone: phone,
+    blood: blood,
+    createdAt: new Date()
+  })
+  .then(() => {
+    alert("✅ Donor Registered!");
+
+    document.getElementById('don-name').value = "";
+    document.getElementById('don-city').value = "";
+    document.getElementById('don-phone').value = "";
+
+    loadDonors(); // 🔥 auto refresh
+  })
+  .catch((err) => console.error(err));
+}
+
+function loadDonors() {
+  db.collection("donor").get()
+    .then((snapshot) => {
+      const donors = [];
+
+      snapshot.forEach((doc) => {
+        donors.push(doc.data());
+      });
+
+      console.log("🔥 Donors:", donors);
+
+      if (donors.length > 0) {
+        document.getElementById('donorResultsCard').style.display = 'block';
+        renderDonors(donors, "Delhi", false);
+      }
+    })
+    .catch((err) => console.error(err));
 }
 
 function toggleBtnLoading(textId, spinnerId, on) {
@@ -1307,16 +1368,7 @@ function toggleBtnLoading(textId, spinnerId, on) {
 
 function callDonor(phone) {
   alert(`📞 Calling ${phone}…\n\n(In a real app, this would initiate a call or share contact details.)`)
-}
-
-// ──────────────── NOTIFICATIONS ────────────────
-function showNotif() {
-  const p = document.getElementById('notifPopup');
-  p.classList.remove('hide');
-  clearTimeout(window._notifTimer);
-  window._notifTimer = setTimeout(() => p.classList.add('hide'), 5000);
-}
-function closeNotif() { document.getElementById('notifPopup').classList.add('hide'); }
+}  
 
 // ──────────────── PROGRESS BAR ────────────────
 let _progTimer;
@@ -1354,12 +1406,16 @@ setInterval(() => {
   const msg = newFeedMessages[feedIdx % newFeedMessages.length];
   feedIdx++;
   addFeedItem(msg.dot, msg.text, 'Just now');
-  if (Math.random() > .6) showNotif();
+  if (Math.random() > .6) ;
 }, 8000);
 
+
 // ──────────────── INIT ────────────────
-renderDashFeed();
-renderBloodAvail();
+window.onload = () => {
+  renderDashFeed();
+  renderBloodAvail();
+  loadDonors();
+};
 </script>
 </body>
 </html>
