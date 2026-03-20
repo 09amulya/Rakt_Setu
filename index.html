@@ -602,19 +602,13 @@
       <div class="landing-logo"><span></span> RaktSetu</div>
     <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
   
-     <div style="margin-top:2rem; max-width:300px; margin-inline:auto;">
-         <input id="email" placeholder="Email" class="form-control" style="margin-bottom:.5rem">
-         <input id="password" type="password" placeholder="Password" class="form-control" style="margin-bottom:.5rem">
-
-        <button class="btn btn-red" onclick="signUp()">Sign Up</button>
-         <button class="btn btn-ghost" onclick="login()" style="margin-top:.5rem">Login</button>
-      </div>
 
     <div class="landing-btns">
       <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
       <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
     </div>
   </div>
+  <div class="scroll-hint">▼ Scroll to explore</div>
 </div>
 
 <!-- ══════════════════ DASHBOARD ════════════════════ -->
@@ -679,6 +673,7 @@
         <span></span>
         <input type="text" placeholder="Search donors, cities…">
       </div>
+      <button class="topbar-btn red" onclick="showNotif()">🔔</button>
       <button class="topbar-btn" onclick="enterLanding()">🚪</button>
     </div>
 
@@ -797,8 +792,12 @@
           <div>
             <div class="card" id="donorResultsCard" style="display:none">
               <div class="match-banner" id="matchBanner">⭐ Best match found near you!</div>
+              <button class="btn btn-green btn-sm" onclick="downloadPDF()" style="margin-bottom:1rem">
+  📄 Download Donor Report
+</button>
               <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
               <div class="donors-grid" id="donorsList"></div>
+              
             </div>
             <div class="card" id="noDonorsCard" style="display:none">
               <div class="empty-state">
@@ -1043,37 +1042,196 @@
   </div><!-- /main-content -->
 </div><!-- /page-dashboard -->
 
-<!-- Firebase FIRST -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
-<!-- Firebase CONFIG -->
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAEtyVYXupFGhOUhniRzifEy_UHSs2DI4U",
-  authDomain: "raktsetu-84ff7.firebaseapp.com",
-  projectId: "raktsetu-84ff7",
-  storageBucket: "raktsetu-84ff7.firebasestorage.app",
-  messagingSenderId: "642732989707",
-  appId: "1:642732989707:web:a058e8173f17cb3391960e"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+ const mockDonors = [
+  { 
+    name:"Rahul Kumar",
+    blood:"O+",
+    city:"Delhi",
+    phone:"98765-43210",
+    lastDon:"2 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 14.2,
+      bloodPressure: "120/80",
+      weight: 70,
+      lastDonationDays: 65,
+      eligibility: true,
+      status: "Excellent",
+      risk: null,
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Jan 2026"
+    }
+  },
 
-console.log("🔥 Firebase Connected");
-</script>
+  { 
+    name:"Priya Sharma",
+    blood:"O+",
+    city:"Delhi",
+    phone:"87654-32109",
+    lastDon:"3 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 10.8,
+      bloodPressure: "110/70",
+      weight: 52,
+      lastDonationDays: 40,
+      eligibility: false,
+      status: "Low Hemoglobin",
+      risk: "Hemoglobin below safe level",
+      diseases: ["Anemia"],
+      hydration: "Average",
+      lastCheckup: "Feb 2026"
+    }
+  },
 
-<script>
-// ──────────────── MOCK DATA ────────────────
-const mockDonors = [
-  { name:"Rahul Kumar", blood:"O+", city:"Delhi", phone:"98765-43210", lastDon:"2 months ago", verified:true },
-  { name:"Priya Sharma", blood:"O+", city:"Delhi", phone:"87654-32109", lastDon:"3 months ago", verified:true },
-  { name:"Amit Singh", blood:"O-", city:"Noida", phone:"76543-21098", lastDon:"1 month ago", verified:false },
-  { name:"Sneha Patel", blood:"A+", city:"Delhi", phone:"65432-10987", lastDon:"45 days ago", verified:true },
-  { name:"Ravi Verma", blood:"B+", city:"Ghaziabad", phone:"54321-09876", lastDon:"6 weeks ago", verified:true },
-  { name:"Kavya Nair", blood:"AB+", city:"Delhi", phone:"43210-98765", lastDon:"2 weeks ago", verified:false },
+  { 
+    name:"Amit Verma",
+    blood:"O+",
+    city:"Noida",
+    phone:"91234-56789",
+    lastDon:"4 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 15.1,
+      bloodPressure: "118/78",
+      weight: 75,
+      lastDonationDays: 120,
+      eligibility: true,
+      status: "Fit",
+      risk: null,
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Dec 2025"
+    }
+  },
+
+  { 
+    name:"Sneha Kapoor",
+    blood:"O+",
+    city:"Gurgaon",
+    phone:"99887-66554",
+    lastDon:"20 days ago",
+    verified:true,
+    health: {
+      hemoglobin: 13.5,
+      bloodPressure: "122/82",
+      weight: 60,
+      lastDonationDays: 20,
+      eligibility: false,
+      status: "Recently Donated",
+      risk: "Recovery period not completed",
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Mar 2026"
+    }
+  },
+
+  { 
+    name:"Karan Mehta",
+    blood:"O+",
+    city:"Delhi",
+    phone:"90909-11223",
+    lastDon:"5 months ago",
+    verified:false,
+    health: {
+      hemoglobin: 13.8,
+      bloodPressure: "125/85",
+      weight: 80,
+      lastDonationDays: 150,
+      eligibility: true,
+      status: "Good",
+      risk: null,
+      diseases: [],
+      hydration: "Average",
+      lastCheckup: "Nov 2025"
+    }
+  },
+
+  { 
+    name:"Anjali Gupta",
+    blood:"O+",
+    city:"Faridabad",
+    phone:"93456-77889",
+    lastDon:"6 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 12.5,
+      bloodPressure: "130/90",
+      weight: 58,
+      lastDonationDays: 180,
+      eligibility: false,
+      status: "High Blood Pressure",
+      risk: "BP above safe donation limit",
+      diseases: ["Hypertension"],
+      hydration: "Low",
+      lastCheckup: "Jan 2026"
+    }
+  },
+
+  { 
+    name:"Rohit Singh",
+    blood:"O+",
+    city:"Delhi",
+    phone:"98700-12345",
+    lastDon:"7 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 14.8,
+      bloodPressure: "119/79",
+      weight: 78,
+      lastDonationDays: 210,
+      eligibility: true,
+      status: "Strong",
+      risk: null,
+      diseases: [],
+      hydration: "Excellent",
+      lastCheckup: "Feb 2026"
+    }
+  },
+
+  { 
+    name:"Meera Iyer",
+    blood:"O+",
+    city:"Noida",
+    phone:"98111-22334",
+    lastDon:"1 month ago",
+    verified:true,
+    health: {
+      hemoglobin: 12.9,
+      bloodPressure: "115/75",
+      weight: 55,
+      lastDonationDays: 30,
+      eligibility: false,
+      status: "Too Soon",
+      risk: "Minimum gap not met",
+      diseases: [],
+      hydration: "Good",
+      lastCheckup: "Mar 2026"
+    }
+  },
+
+  { 
+    name:"Arjun Nair",
+    blood:"O+",
+    city:"Gurgaon",
+    phone:"90012-34567",
+    lastDon:"8 months ago",
+    verified:true,
+    health: {
+      hemoglobin: 15.3,
+      bloodPressure: "117/76",
+      weight: 82,
+      lastDonationDays: 240,
+      eligibility: true,
+      status: "Excellent",
+      risk: null,
+      diseases: [],
+      hydration: "Excellent",
+      lastCheckup: "Jan 2026"
+    }
+  }
 ];
 
 const bloodBanks = [
@@ -1151,7 +1309,7 @@ function renderBanks() {
 function renderDonors(donors, requestCity, isEmergency) {
   const el = document.getElementById('donorsList');
   document.getElementById('donorCount').textContent = donors.length + ' found';
-  if (!donors.length) { el.innerHTML = ''; return; }
+  if (!donors.length) { el.innerHTML =   ''; return; }
   function getMatchingBanks(blood) {
   return bloodBanks.filter(b => b.avail.includes(blood));
 }
@@ -1185,24 +1343,110 @@ function renderMatchingBanks(banks) {
     const isBest = i === 0;
     const isEmerg = isEmergency;
     return `
-      <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
-        <div class="donor-header">
-          <div class="donor-avatar">${d.name.charAt(0)}</div>
-          <div>
-            <div class="donor-name">${d.name} ${d.verified ? '✓' : ''}</div>
-            <div class="donor-meta">Last donated: ${d.lastDon}</div>
-          </div>
-        </div>
-        <div class="donor-badges">
-          <span class="badge badge-blood">🩸 ${d.blood}</span>
-          <span class="badge badge-city">📍 ${d.city}</span>
-          ${nearYou ? '<span class="badge badge-near">📍 Near You</span>' : ''}
-        </div>
-        <div class="donor-actions">
-          <button class="btn btn-red btn-sm" style="flex:1" onclick="callDonor('${d.phone}')">📞 Call</button>
-          <button class="btn btn-ghost btn-sm" style="flex:1">💬 Message</button>
-        </div>
+       <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
+  
+  <div class="donor-header">
+    <div class="donor-avatar">${d.name.charAt(0)}</div>
+    <div>
+      <div class="donor-name">
+        ${d.name} ${d.verified ? '✓' : ''}
       </div>
+      <div class="donor-meta">Last donated: ${d.lastDon}</div>
+    </div>
+  </div>
+
+  <div class="donor-badges">
+    <span class="badge badge-blood">🩸 ${d.blood}</span>
+    <span class="badge badge-city">📍 ${d.city}</span>
+    ${nearYou ? '<span class="badge badge-near">📍 Near You</span>' : ''}
+  </div>
+  <div style="
+  padding:.4rem .7rem;
+  border-radius:8px;
+  font-size:.75rem;
+  font-weight:600;
+  margin-bottom:.6rem;
+  display:inline-block;
+  background:${d.health.eligibility ? '#dcfce7' : '#fee2e2'};
+  color:${d.health.eligibility ? '#166534' : '#991b1b'};
+">
+  ${d.health.eligibility ? '✅ Eligible to Donate' : '❌ Not Eligible'}
+</div>
+ 
+  
+
+  <!-- 🔽 BUTTON -->
+  <button class="btn btn-outline btn-sm" onclick="toggleHealth(${i})">
+    🩺 View Health Details
+  </button>
+
+  <!-- 🔽 HIDDEN PANEL -->
+   <div id="health-${i}" style="
+  display:none;
+  margin-top:.9rem;
+  padding:1rem;
+  background:#f9fafb;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-size:.8rem;
+  line-height:1.5;
+">
+
+  <div style="font-weight:700;margin-bottom:.6rem;color:#111827">
+    🩺 Medical Summary
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+
+    <div>🩸 Hemoglobin</div>
+    <div><strong>${d.health.hemoglobin} g/dL</strong></div>
+
+    <div>❤️ Blood Pressure</div>
+    <div><strong>${d.health.bloodPressure}</strong></div>
+
+    <div>⚖️ Weight</div>
+    <div><strong>${d.health.weight} kg</strong></div>
+
+    <div>⏱ Last Donation</div>
+    <div><strong>${d.health.lastDonationDays} days ago</strong></div>
+
+    <div>💧 Hydration</div>
+    <div><strong>${d.health.hydration}</strong></div>
+
+    <div>📅 Last Checkup</div>
+    <div><strong>${d.health.lastCheckup}</strong></div>
+
+  </div>
+
+  <div style="margin-top:.7rem">
+    ❤️ Overall Status: 
+    <strong>${d.health.status}</strong>
+  </div>
+
+  ${
+    d.health.diseases.length
+      ? `<div style="margin-top:.5rem;color:#b91c1c">
+           ⚠️ Conditions: ${d.health.diseases.join(', ')}
+         </div>`
+      : ''
+  }
+
+  ${
+    d.health.risk
+      ? `<div style="margin-top:.5rem;color:#dc2626;font-weight:600">
+           🚫 Risk: ${d.health.risk}
+         </div>`
+      : ''
+  }
+
+</div>
+
+  <div class="donor-actions" style="margin-top:.7rem">
+    <button class="btn btn-red btn-sm" style="flex:1" onclick="callDonor('${d.phone}')">📞 Call</button>
+    <button class="btn btn-ghost btn-sm" style="flex:1">💬 Message</button>
+  </div>
+
+</div>
     `;
   }).join('');
 }
@@ -1266,6 +1510,7 @@ function enterDashboard(section) {
     document.getElementById('page-dashboard').classList.add('active');
     switchSection(section || 'home');
     hideProgress();
+    setTimeout(() => showNotif(), 3000);
   }, 600);
 }
 function enterLanding() {
@@ -1288,9 +1533,11 @@ function submitRequest() {
     toggleBtnLoading('reqBtnText','reqSpinner',false);
     document.getElementById('reqBtnText').textContent = '✅ Donors Found!';
 
-    const matching = mockDonors.filter(d =>
-      d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')
-    );
+     const matching = mockDonors.filter(d =>
+  (d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')) 
+  && d.health.eligibility
+);
+window.currentDonors = matching;
     
     const isEmerg = urgency === 'emergency';
 
@@ -1314,51 +1561,17 @@ function submitRequest() {
 
 function submitDonate() {
   const name = document.getElementById('don-name').value.trim();
-  const city = document.getElementById('don-city').value.trim();
-  const phone = document.getElementById('don-phone').value.trim();
-  const blood = document.querySelector('input[name="don-bg"]:checked')?.value;
+  if (!name) { document.getElementById('don-name').focus(); return; }
 
-  if (!name || !city || !phone) {
-    alert("❌ Fill all fields");
-    return;
-  }
-
-  db.collection("donor").add({
-    name: name,
-    city: city,
-    phone: phone,
-    blood: blood,
-    createdAt: new Date()
-  })
-  .then(() => {
-    alert("✅ Donor Registered!");
-
-    document.getElementById('don-name').value = "";
-    document.getElementById('don-city').value = "";
-    document.getElementById('don-phone').value = "";
-
-    loadDonors(); // 🔥 auto refresh
-  })
-  .catch((err) => console.error(err));
-}
-
-function loadDonors() {
-  db.collection("donor").get()
-    .then((snapshot) => {
-      const donors = [];
-
-      snapshot.forEach((doc) => {
-        donors.push(doc.data());
-      });
-
-      console.log("🔥 Donors:", donors);
-
-      if (donors.length > 0) {
-        document.getElementById('donorResultsCard').style.display = 'block';
-        renderDonors(donors, "Delhi", false);
-      }
-    })
-    .catch((err) => console.error(err));
+  showProgress();
+  toggleBtnLoading('donBtnText','donSpinner',true);
+  setTimeout(() => {
+    hideProgress();
+    toggleBtnLoading('donBtnText','donSpinner',false);
+    document.getElementById('donBtnText').textContent = '✅ Registered!';
+    document.getElementById('donSuccessMsg').classList.add('show');
+    addFeedItem('green', `✅ New donor ${name} just registered!`, 'Just now');
+  }, 1800);
 }
 
 function toggleBtnLoading(textId, spinnerId, on) {
@@ -1368,7 +1581,16 @@ function toggleBtnLoading(textId, spinnerId, on) {
 
 function callDonor(phone) {
   alert(`📞 Calling ${phone}…\n\n(In a real app, this would initiate a call or share contact details.)`)
-}  
+}
+
+// ──────────────── NOTIFICATIONS ────────────────
+function showNotif() {
+  const p = document.getElementById('notifPopup');
+  p.classList.remove('hide');
+  clearTimeout(window._notifTimer);
+  window._notifTimer = setTimeout(() => p.classList.add('hide'), 5000);
+}
+function closeNotif() { document.getElementById('notifPopup').classList.add('hide'); }
 
 // ──────────────── PROGRESS BAR ────────────────
 let _progTimer;
@@ -1406,16 +1628,51 @@ setInterval(() => {
   const msg = newFeedMessages[feedIdx % newFeedMessages.length];
   feedIdx++;
   addFeedItem(msg.dot, msg.text, 'Just now');
-  if (Math.random() > .6) ;
+  if (Math.random() > .6) showNotif();
 }, 8000);
 
-
 // ──────────────── INIT ────────────────
-window.onload = () => {
-  renderDashFeed();
-  renderBloodAvail();
-  loadDonors();
-};
+function toggleHealth(index) {
+  const el = document.getElementById('health-' + index);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("RaktSetu Donor Report", 10, y);
+
+  y += 10;
+
+   (window.currentDonors || []).forEach((d) => { 
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+
+    doc.text(`Name: ${d.name}`, 10, y); y += 6;
+    doc.text(`Blood: ${d.blood}`, 10, y); y += 6;
+    doc.text(`City: ${d.city}`, 10, y); y += 6;
+    doc.text(`Phone: ${d.phone}`, 10, y); y += 6;
+    doc.text(`Eligibility: ${d.health.eligibility ? "Eligible" : "Not Eligible"}`, 10, y); y += 6;
+    doc.text(`Status: ${d.health.status}`, 10, y); y += 10;
+
+    if (y > 270) {
+      doc.addPage();
+      y = 10;
+    }
+  });
+
+  doc.save("RaktSetu_Donors.pdf");
+}
+renderDashFeed();
+renderBloodAvail();
+
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
