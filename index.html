@@ -1,1584 +1,796 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RaktSetu — Connecting Lives, One Drop at a Time</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --red-deep: #b91c1c;
-            --red-vivid: #dc2626;
-            --red-light: #ef4444;
-            --red-pale: #fee2e2;
-            --red-ultra: #fef2f2;
-            --white: #ffffff;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-700: #374151;
-            --gray-900: #111827;
-            --sidebar-w: 240px;
-            --radius: 16px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, .1);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, .12);
-            --shadow-red: 0 8px 32px rgba(185, 28, 28, .22);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--gray-50);
-            color: var(--gray-900);
-            overflow-x: hidden;
-        }
-
-        /* ── LANDING ─────────────────────────────────────────────── */
-        #page-landing {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 40%, #dc2626 70%, #ef4444 100%);
-        }
-
-        #page-landing::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 80% 60% at 70% 30%, rgba(255, 255, 255, .07) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 80% at 10% 80%, rgba(0, 0, 0, .18) 0%, transparent 60%);
-        }
-
-        .landing-noise {
-            position: absolute;
-            inset: 0;
-            opacity: .035;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-        }
-
-        .landing-orb {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .06);
-            filter: blur(60px);
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb1 {
-            width: 480px;
-            height: 480px;
-            top: -120px;
-            right: -80px;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 300px;
-            height: 300px;
-            bottom: -80px;
-            left: -60px;
-            animation-delay: -3s;
-        }
-
-        .orb3 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 30%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1)
-            }
-
-            50% {
-                transform: translateY(-24px) scale(1.04)
-            }
-        }
-
-        .landing-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 2rem;
-            animation: fadeUp .9s cubic-bezier(.16, 1, .3, 1) both;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(32px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .landing-logo {
-            font-family: 'Playfair Display', serif;
-            font-weight: 900;
-            font-size: clamp(3.5rem, 10vw, 6rem);
-            color: #fff;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: .5rem;
-            text-shadow: 0 4px 32px rgba(0, 0, 0, .3);
-        }
-
-        .landing-logo span {
-            display: inline-block;
-            animation: pulse-drop 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-drop {
-
-            0%,
-            100% {
-                transform: scale(1)
-            }
-
-            50% {
-                transform: scale(1.12)
-            }
-        }
-
-        .landing-tagline {
-            font-size: clamp(1rem, 3vw, 1.35rem);
-            color: rgba(255, 255, 255, .85);
-            font-weight: 300;
-            letter-spacing: .04em;
-            margin-bottom: 3rem;
-        }
-
-        .landing-stats {
-            display: flex;
-            gap: 2.5rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .stat-label {
-            font-size: .8rem;
-            color: rgba(255, 255, 255, .65);
-            text-transform: uppercase;
-            letter-spacing: .08em;
-        }
-
-        .landing-btns {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            padding: .95rem 2.6rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all .25s cubic-bezier(.16, 1, .3, 1);
-        }
-
-        .btn-request {
-            background: #fff;
-            color: var(--red-deep);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, .2);
-        }
-
-        .btn-request:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, .25);
-        }
-
-        .btn-donate {
-            background: transparent;
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, .6);
-            backdrop-filter: blur(8px);
-        }
-
-        .btn-donate:hover {
-            background: rgba(255, 255, 255, .15);
-            transform: translateY(-3px);
-            border-color: #fff;
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, .4);
-            font-size: .8rem;
-            text-align: center;
-            z-index: 2;
-            animation: bounce 2.4s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(8px)
-            }
-        }
-
-        /* ── NOTIFICATION POPUP ────────────────────────────────────── */
-        .notif-popup {
-            position: fixed;
-            top: 1.25rem;
-            right: 1.25rem;
-            z-index: 9999;
-            background: #fff;
-            border-radius: 14px;
-            padding: 1rem 1.25rem;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: .8rem;
-            max-width: 320px;
-            border-left: 4px solid var(--red-vivid);
-            animation: slideIn .4s cubic-bezier(.16, 1, .3, 1) both;
-            transition: opacity .4s, transform .4s;
-        }
-
-        .notif-popup.hide {
-            opacity: 0;
-            transform: translateX(20px);
-            pointer-events: none;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(24px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0)
-            }
-        }
-
-        .notif-icon {
-            font-size: 1.5rem;
-        }
-
-        .notif-text {
-            flex: 1;
-        }
-
-        .notif-text strong {
-            display: block;
-            font-size: .9rem;
-            color: var(--gray-900);
-        }
-
-        .notif-text span {
-            font-size: .78rem;
-            color: var(--gray-500);
-        }
-
-        .notif-close {
-            cursor: pointer;
-            color: var(--gray-400);
-            font-size: 1.1rem;
-            padding: .2rem;
-        }
-
-        .notif-close:hover {
-            color: var(--gray-700);
-        }
-
-        /* ── DASHBOARD SHELL ──────────────────────────────────────── */
-        #page-dashboard {
-            display: none;
-            min-height: 100vh;
-        }
-
-        #page-dashboard.active {
-            display: flex;
-        }
-
-        .sidebar {
-            width: var(--sidebar-w);
-            background: #fff;
-            border-right: 1px solid var(--gray-200);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            z-index: 100;
-            transition: transform .3s cubic-bezier(.16, 1, .3, 1);
-            box-shadow: var(--shadow-md);
-        }
-
-        .sidebar-brand {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gray-100);
-            display: flex;
-            align-items: center;
-            gap: .7rem;
-        }
-
-        .sidebar-brand-icon {
-            font-size: 1.8rem;
-        }
-
-        .sidebar-brand-name {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--red-deep);
-            line-height: 1;
-        }
-
-        .sidebar-brand-tagline {
-            font-size: .65rem;
-            color: var(--gray-400);
-            letter-spacing: .04em;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 1rem .75rem;
-            overflow-y: auto;
-        }
-
-        .nav-section-title {
-            font-size: .68rem;
-            font-weight: 600;
-            color: var(--gray-400);
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            padding: .75rem .5rem .3rem;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            padding: .75rem 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--gray-500);
-            transition: all .18s;
-            margin-bottom: .15rem;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .nav-item:hover {
-            background: var(--red-ultra);
-            color: var(--red-deep);
-        }
-
-        .nav-item.active {
-            background: var(--red-pale);
-            color: var(--red-deep);
-            font-weight: 600;
-        }
-
-        .nav-item .nav-icon {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-badge {
-            margin-left: auto;
-            background: var(--red-vivid);
-            color: #fff;
-            font-size: .65rem;
-            font-weight: 700;
-            padding: .15rem .45rem;
-            border-radius: 50px;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        .sidebar-footer {
-            padding: 1rem .75rem;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .sidebar-user {
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            padding: .75rem 1rem;
-            border-radius: 10px;
-            background: var(--gray-50);
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--red-vivid), var(--red-deep));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: .9rem;
-        }
-
-        .user-name {
-            font-size: .88rem;
-            font-weight: 600;
-            color: var(--gray-700);
-        }
-
-        .user-type {
-            font-size: .72rem;
-            color: var(--gray-400);
-        }
-
-        /* ── MAIN CONTENT ──────────────────────────────────────────── */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-w);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .topbar {
-            background: #fff;
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .topbar-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--gray-900);
-            flex: 1;
-        }
-
-        .topbar-search {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            background: var(--gray-100);
-            border-radius: 10px;
-            padding: .5rem 1rem;
-            border: 1.5px solid transparent;
-            transition: all .2s;
-        }
-
-        .topbar-search:focus-within {
-            background: #fff;
-            border-color: var(--red-light);
-        }
-
-        .topbar-search input {
-            border: none;
-            background: none;
-            outline: none;
-            font-family: inherit;
-            font-size: .88rem;
-            width: 180px;
-            color: var(--gray-700);
-        }
-
-        .topbar-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            background: var(--gray-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            transition: all .18s;
-            color: var(--gray-500);
-        }
-
-        .topbar-btn:hover {
-            background: var(--red-pale);
-            color: var(--red-deep);
-        }
-
-        .topbar-btn.red {
-            background: var(--red-pale);
-            color: var(--red-deep);
-        }
-
-        .menu-toggle {
-            display: none;
-        }
-
-        .content-area {
-            padding: 2rem;
-            flex: 1;
-            animation: fadeUp .4s ease both;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px)
-            }
-
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        /* ── CARDS ─────────────────────────────────────────────────── */
-        .card {
-            background: #fff;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--gray-200);
-            padding: 1.5rem;
-            transition: box-shadow .2s, transform .2s;
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        .card-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-        }
-
-        /* ── STAT CARDS ─────────────────────────────────────────────── */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 1.25rem 1.5rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--gray-200);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: -20px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            opacity: .07;
-        }
-
-        .stat-card.red::before {
-            background: var(--red-vivid);
-        }
-
-        .stat-card.green::before {
-            background: #16a34a;
-        }
-
-        .stat-card.blue::before {
-            background: #2563eb;
-        }
-
-        .stat-card.orange::before {
-            background: #d97706;
-        }
-
-        .stat-card-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .stat-card.red .stat-card-value {
-            color: var(--red-deep);
-        }
-
-        .stat-card.green .stat-card-value {
-            color: #16a34a;
-        }
-
-        .stat-card.blue .stat-card-value {
-            color: #2563eb;
-        }
-
-        .stat-card.orange .stat-card-value {
-            color: #d97706;
-        }
-
-        .stat-card-label {
-            font-size: .78rem;
-            color: var(--gray-500);
-            margin-top: .3rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: .05em;
-        }
-
-        .stat-card-icon {
-            font-size: 1.6rem;
-            margin-bottom: .5rem;
-        }
-
-        .stat-card-change {
-            font-size: .75rem;
-            margin-top: .5rem;
-            font-weight: 500;
-            color: #16a34a;
-        }
-
-        /* ── FORMS ─────────────────────────────────────────────────── */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: .4rem;
-        }
-
-        .form-label {
-            font-size: .82rem;
-            font-weight: 600;
-            color: var(--gray-700);
-            letter-spacing: .02em;
-        }
-
-        .form-control {
-            padding: .72rem 1rem;
-            border-radius: 10px;
-            border: 1.5px solid var(--gray-200);
-            font-family: inherit;
-            font-size: .9rem;
-            color: var(--gray-900);
-            background: #fff;
-            outline: none;
-            transition: all .2s;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .form-control:focus {
-            border-color: var(--red-light);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, .1);
-        }
-
-        .form-control::placeholder {
-            color: var(--gray-400);
-        }
-
-        .urgency-selector {
-            display: flex;
-            gap: .75rem;
-        }
-
-        .urgency-opt {
-            flex: 1;
-        }
-
-        .urgency-opt input {
-            display: none;
-        }
-
-        .urgency-opt label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: .75rem;
-            border-radius: 10px;
-            border: 2px solid var(--gray-200);
-            cursor: pointer;
-            transition: all .18s;
-            font-size: .85rem;
-            font-weight: 500;
-            color: var(--gray-500);
-            gap: .3rem;
-        }
-
-        .urgency-opt input:checked+label {
-            border-color: var(--red-vivid);
-            background: var(--red-ultra);
-            color: var(--red-deep);
-            font-weight: 600;
-        }
-
-        .urgency-opt label .urg-icon {
-            font-size: 1.3rem;
-        }
-
-        .btn {
-            padding: .8rem 1.75rem;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: .92rem;
-            font-weight: 600;
-            transition: all .2s cubic-bezier(.16, 1, .3, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-        }
-
-        .btn-red {
-            background: var(--red-vivid);
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(220, 38, 38, .3);
-        }
-
-        .btn-red:hover {
-            background: var(--red-deep);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-red);
-        }
-
-        .btn-red:active {
-            transform: translateY(0);
-        }
-
-        .btn-outline {
-            background: #fff;
-            color: var(--red-vivid);
-            border: 2px solid var(--red-vivid);
-        }
-
-        .btn-outline:hover {
-            background: var(--red-ultra);
-        }
-
-        .btn-ghost {
-            background: var(--gray-100);
-            color: var(--gray-700);
-        }
-
-        .btn-ghost:hover {
-            background: var(--gray-200);
-        }
-
-        .btn-sm {
-            padding: .5rem 1rem;
-            font-size: .82rem;
-            border-radius: 8px;
-        }
-
-        .btn-green {
-            background: #16a34a;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(22, 163, 74, .25);
-        }
-
-        .btn-green:hover {
-            background: #15803d;
-            transform: translateY(-2px);
-        }
-
-        .loading-spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, .3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin .6s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
-
-        /* ── DONOR CARDS ────────────────────────────────────────────── */
-        .donors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-top: 1.25rem;
-        }
-
-        .donor-card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            border: 1.5px solid var(--gray-200);
-            box-shadow: var(--shadow-sm);
-            transition: all .2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .donor-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--red-light);
-        }
-
-        .donor-card.emergency {
-            border-color: var(--red-vivid);
-        }
-
-        .donor-card.emergency::before {
-            content: '🚨 EMERGENCY';
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--red-vivid);
-            color: #fff;
-            font-size: .62rem;
-            font-weight: 700;
-            padding: .25rem .6rem;
-            border-radius: 0 14px 0 8px;
-            letter-spacing: .06em;
-        }
-
-        .donor-card.best-match {
-            border-color: #d97706;
-        }
-
-        .donor-card.best-match::after {
-            content: '⭐ Best Match';
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: linear-gradient(90deg, #d97706, #f59e0b);
-            color: #fff;
-            font-size: .62rem;
-            font-weight: 700;
-            padding: .25rem .6rem;
-            border-radius: 14px 0 8px 0;
-        }
-
-        .donor-header {
-            display: flex;
-            align-items: center;
-            gap: .85rem;
-            margin-bottom: 1rem;
-        }
-
-        .donor-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--red-light), var(--red-deep));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .donor-name {
-            font-weight: 600;
-            font-size: .95rem;
-            color: var(--gray-900);
-        }
-
-        .donor-meta {
-            font-size: .78rem;
-            color: var(--gray-500);
-            margin-top: .1rem;
-        }
-
-        .donor-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .4rem;
-            margin-bottom: 1rem;
-        }
-
-        .badge {
-            padding: .25rem .65rem;
-            border-radius: 50px;
-            font-size: .72rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-        }
-
-        .badge-blood {
-            background: var(--red-pale);
-            color: var(--red-deep);
-        }
-
-        .badge-city {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .badge-near {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .badge-last {
-            background: var(--gray-100);
-            color: var(--gray-600);
-        }
-
-        .donor-actions {
-            display: flex;
-            gap: .6rem;
-        }
-
-        /* ── BLOOD BANK CARDS ────────────────────────────────────────── */
-        .banks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .bank-card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            border: 1px solid var(--gray-200);
-            box-shadow: var(--shadow-sm);
-            transition: all .2s;
-            display: flex;
-            flex-direction: column;
-            gap: .85rem;
-        }
-
-        .bank-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .bank-icon-wrap {
-            width: 48px;
-            height: 48px;
-            background: var(--red-pale);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .bank-name {
-            font-weight: 600;
-            font-size: .95rem;
-            color: var(--gray-900);
-        }
-
-        .bank-loc {
-            font-size: .82rem;
-            color: var(--gray-500);
-            display: flex;
-            align-items: center;
-            gap: .3rem;
-        }
-
-        .bank-hours {
-            font-size: .78rem;
-            color: #16a34a;
-            font-weight: 500;
-        }
-
-        .bank-avail {
-            display: flex;
-            gap: .4rem;
-            flex-wrap: wrap;
-            margin-top: .2rem;
-        }
-
-        .avail-badge {
-            padding: .2rem .5rem;
-            background: var(--red-ultra);
-            color: var(--red-deep);
-            border-radius: 6px;
-            font-size: .7rem;
-            font-weight: 700;
-        }
-
-        /* ── LIVE FEED ─────────────────────────────────────────────── */
-        .feed-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .feed-item {
-            display: flex;
-            align-items: flex-start;
-            gap: .85rem;
-            padding: .9rem 0;
-            border-bottom: 1px solid var(--gray-100);
-            animation: feedIn .4s ease both;
-        }
-
-        .feed-item:last-child {
-            border-bottom: none;
-        }
-
-        @keyframes feedIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px)
-            }
-
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        .feed-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-
-        .feed-dot.red {
-            background: var(--red-vivid);
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, .15);
-        }
-
-        .feed-dot.green {
-            background: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, .15);
-        }
-
-        .feed-dot.blue {
-            background: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
-        }
-
-        .feed-body {
-            flex: 1;
-        }
-
-        .feed-text {
-            font-size: .86rem;
-            color: var(--gray-700);
-            font-weight: 500;
-        }
-
-        .feed-time {
-            font-size: .72rem;
-            color: var(--gray-400);
-            margin-top: .15rem;
-        }
-
-        .feed-pulse {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--red-vivid);
-            animation: pulse-ring 1.4s cubic-bezier(.455, .03, .515, .955) infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% {
-                box-shadow: 0 0 0 0 rgba(220, 38, 38, .5)
-            }
-
-            70% {
-                box-shadow: 0 0 0 8px rgba(220, 38, 38, 0)
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0)
-            }
-        }
-
-        /* ── PROFILE ─────────────────────────────────────────────────── */
-        .profile-header-card {
-            background: linear-gradient(135deg, var(--red-deep), var(--red-vivid));
-            border-radius: var(--radius);
-            padding: 2rem;
-            color: #fff;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-header-card::after {
-            content: '🩸';
-            position: absolute;
-            right: 2rem;
-            bottom: -10px;
-            font-size: 6rem;
-            opacity: .12;
-        }
-
-        .profile-avatar-lg {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            border: 3px solid rgba(255, 255, 255, .4);
-            flex-shrink: 0;
-        }
-
-        .profile-name-lg {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .profile-blood-type {
-            display: inline-block;
-            background: rgba(255, 255, 255, .2);
-            padding: .2rem .8rem;
-            border-radius: 50px;
-            font-size: .85rem;
-            font-weight: 600;
-            margin-top: .25rem;
-            backdrop-filter: blur(4px);
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: .75rem;
-        }
-
-        .profile-stat {
-            text-align: center;
-        }
-
-        .profile-stat-val {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-
-        .profile-stat-lbl {
-            font-size: .72rem;
-            opacity: .75;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-        }
-
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: .75rem;
-            margin-top: .5rem;
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            transition: all .18s;
-        }
-
-        .history-item:hover {
-            background: #fff;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .history-icon {
-            font-size: 1.5rem;
-        }
-
-        .history-info {
-            flex: 1;
-        }
-
-        .history-title {
-            font-size: .9rem;
-            font-weight: 600;
-            color: var(--gray-800);
-        }
-
-        .history-detail {
-            font-size: .78rem;
-            color: var(--gray-500);
-            margin-top: .15rem;
-        }
-
-        .history-badge {
-            padding: .2rem .65rem;
-            border-radius: 50px;
-            font-size: .72rem;
-            font-weight: 600;
-        }
-
-        .hb-request {
-            background: var(--red-pale);
-            color: var(--red-deep);
-        }
-
-        .hb-donate {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .hb-emerg {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* ── SUCCESS MSG ─────────────────────────────────────────────── */
-        .success-msg {
-            display: none;
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border: 1.5px solid #86efac;
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 1.5rem;
-            animation: fadeUp .4s ease both;
-        }
-
-        .success-msg.show {
-            display: block;
-        }
-
-        .success-icon {
-            font-size: 3rem;
-            margin-bottom: .75rem;
-        }
-
-        .success-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #15803d;
-        }
-
-        .success-sub {
-            font-size: .88rem;
-            color: #166534;
-            margin-top: .4rem;
-        }
-
-        /* ── EMPTY STATE ─────────────────────────────────────────────── */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--gray-400);
-        }
-
-        .empty-state .empty-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            opacity: .5;
-        }
-
-        .empty-state .empty-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gray-500);
-        }
-
-        .empty-state .empty-sub {
-            font-size: .85rem;
-            margin-top: .3rem;
-        }
-
-        /* ── SECTION HEADER ─────────────────────────────────────────── */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.25rem;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--gray-900);
-        }
-
-        .section-sub {
-            font-size: .82rem;
-            color: var(--gray-500);
-            margin-top: .2rem;
-        }
-
-        /* ── BLOOD GROUP SELECTOR ────────────────────────────────────── */
-        .blood-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: .5rem;
-        }
-
-        .blood-opt input {
-            display: none;
-        }
-
-        .blood-opt label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 44px;
-            border-radius: 10px;
-            border: 2px solid var(--gray-200);
-            cursor: pointer;
-            font-weight: 700;
-            font-size: .88rem;
-            color: var(--gray-500);
-            transition: all .18s;
-        }
-
-        .blood-opt input:checked+label {
-            border-color: var(--red-vivid);
-            background: var(--red-pale);
-            color: var(--red-deep);
-        }
-
-        .blood-opt label:hover {
-            border-color: var(--red-light);
-            color: var(--red-light);
-        }
-
-        /* ── DIVIDER / MISC ──────────────────────────────────────────── */
-        .divider {
-            height: 1px;
-            background: var(--gray-200);
-            margin: 1.25rem 0;
-        }
-
-        .match-banner {
-            background: linear-gradient(90deg, #fffbeb, #fef3c7);
-            border: 1px solid #fde68a;
-            border-radius: 10px;
-            padding: .85rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: .7rem;
-            font-size: .9rem;
-            font-weight: 600;
-            color: #92400e;
-            margin-bottom: 1rem;
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        @media(max-width:900px) {
-            .two-col {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ── MOBILE ──────────────────────────────────────────────────── */
-        @media(max-width:768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, .4);
-                z-index: 99;
-            }
-
-            .sidebar-overlay.show {
-                display: block;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .topbar-search {
-                display: none;
-            }
-
-            .content-area {
-                padding: 1.25rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .profile-header-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .profile-stats {
-                justify-content: center;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* ── PAGE SECTIONS ───────────────────────────────────────────── */
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-            animation: fadeUp .35s ease both;
-        }
-
-        /* ── PROGRESS BAR ────────────────────────────────────────────── */
-        .top-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--red-vivid);
-            width: 0;
-            z-index: 9998;
-            transition: width .3s ease;
-            border-radius: 0 2px 2px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RaktSetu — Connecting Lives, One Drop at a Time</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red-deep: #b91c1c;
+    --red-vivid: #dc2626;
+    --red-light: #ef4444;
+    --red-pale: #fee2e2;
+    --red-ultra: #fef2f2;
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --sidebar-w: 240px;
+    --radius: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.1);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.12);
+    --shadow-red: 0 8px 32px rgba(185,28,28,.22);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--gray-50); color: var(--gray-900); overflow-x: hidden; }
+
+  /* ── LANDING ─────────────────────────────────────────────── */
+  #page-landing {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; position: relative; overflow: hidden;
+     
+  background: transparent;
+}
+  
+  #page-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 30%, rgba(255,255,255,.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 80% at 10% 80%, rgba(0,0,0,.18) 0%, transparent 60%);
+  }
+  .landing-noise {
+    position: absolute; inset: 0; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+  .landing-orb {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,.06); filter: blur(60px);
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb1 { width: 480px; height: 480px; top: -120px; right: -80px; animation-delay: 0s; }
+  .orb2 { width: 300px; height: 300px; bottom: -80px; left: -60px; animation-delay: -3s; }
+  .orb3 { width: 200px; height: 200px; top: 50%; left: 30%; animation-delay: -5s; }
+  @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-24px) scale(1.04)} }
+
+  .landing-content {
+    position: relative; z-index: 2; text-align: center; padding: 2rem;
+    animation: fadeUp .9s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+
+  .landing-logo {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 6rem); color: #fff;
+    letter-spacing: -2px; line-height: 1; margin-bottom: .5rem;
+    text-shadow: 0 4px 32px rgba(0,0,0,.3);
+  }
+  .landing-logo span { display: inline-block; animation: pulse-drop 2s ease-in-out infinite; }
+  @keyframes pulse-drop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+  .landing-tagline {
+    font-size: clamp(1rem, 3vw, 1.35rem); color: rgba(255,255,255,.85);
+    font-weight: 300; letter-spacing: .04em; margin-bottom: 3rem;
+  }
+  .landing-stats {
+    display: flex; gap: 2.5rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #fff; }
+  .stat-label { font-size: .8rem; color: rgba(255,255,255,.65); text-transform: uppercase; letter-spacing: .08em; }
+  .landing-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: .95rem 2.6rem; border-radius: 50px; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600;
+    transition: all .25s cubic-bezier(.16,1,.3,1);
+  }
+  .btn-request {
+    background: #fff; color: var(--red-deep);
+    box-shadow: 0 4px 24px rgba(0,0,0,.2);
+  }
+  .btn-request:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 36px rgba(0,0,0,.25); }
+  .btn-donate {
+    background: transparent; color: #fff;
+    border: 2px solid rgba(255,255,255,.6);
+    backdrop-filter: blur(8px);
+  }
+  .btn-donate:hover { background: rgba(255,255,255,.15); transform: translateY(-3px); border-color: #fff; }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,.4); font-size: .8rem; text-align: center; z-index: 2;
+    animation: bounce 2.4s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  /* ── NOTIFICATION POPUP ────────────────────────────────────── */
+  .notif-popup {
+    position: fixed; top: 1.25rem; right: 1.25rem; z-index: 9999;
+    background: #fff; border-radius: 14px; padding: 1rem 1.25rem;
+    box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: .8rem;
+    max-width: 320px; border-left: 4px solid var(--red-vivid);
+    animation: slideIn .4s cubic-bezier(.16,1,.3,1) both;
+    transition: opacity .4s, transform .4s;
+  }
+  .notif-popup.hide { opacity: 0; transform: translateX(20px); pointer-events: none; }
+  @keyframes slideIn { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
+  .notif-icon { font-size: 1.5rem; }
+  .notif-text { flex: 1; }
+  .notif-text strong { display: block; font-size: .9rem; color: var(--gray-900); }
+  .notif-text span { font-size: .78rem; color: var(--gray-500); }
+  .notif-close { cursor: pointer; color: var(--gray-400); font-size: 1.1rem; padding: .2rem; }
+  .notif-close:hover { color: var(--gray-700); }
+
+  /* ── DASHBOARD SHELL ──────────────────────────────────────── */
+  #page-dashboard { display: none; min-height: 100vh; }
+  #page-dashboard.active { display: flex; }
+
+  .sidebar {
+    width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--gray-200);
+    display: flex; flex-direction: column; position: fixed; top: 0; left: 0;
+    height: 100vh; z-index: 100; transition: transform .3s cubic-bezier(.16,1,.3,1);
+    box-shadow: var(--shadow-md);
+  }
+  .sidebar-brand {
+    padding: 1.5rem; border-bottom: 1px solid var(--gray-100);
+    display: flex; align-items: center; gap: .7rem;
+  }
+  .sidebar-brand-icon { font-size: 1.8rem; }
+  .sidebar-brand-name {
+    font-family: 'Playfair Display', serif; font-weight: 700;
+    font-size: 1.25rem; color: var(--red-deep); line-height: 1;
+  }
+  .sidebar-brand-tagline { font-size: .65rem; color: var(--gray-400); letter-spacing: .04em; }
+  .sidebar-nav { flex: 1; padding: 1rem .75rem; overflow-y: auto; }
+  .nav-section-title {
+    font-size: .68rem; font-weight: 600; color: var(--gray-400);
+    text-transform: uppercase; letter-spacing: .1em;
+    padding: .75rem .5rem .3rem;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .75rem 1rem; border-radius: 10px; cursor: pointer;
+    font-size: .9rem; font-weight: 500; color: var(--gray-500);
+    transition: all .18s; margin-bottom: .15rem; border: none; background: none; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: var(--red-ultra); color: var(--red-deep); }
+  .nav-item.active { background: var(--red-pale); color: var(--red-deep); font-weight: 600; }
+  .nav-item .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
+  .nav-badge {
+    margin-left: auto; background: var(--red-vivid); color: #fff;
+    font-size: .65rem; font-weight: 700; padding: .15rem .45rem;
+    border-radius: 50px; min-width: 20px; text-align: center;
+  }
+  .sidebar-footer {
+    padding: 1rem .75rem; border-top: 1px solid var(--gray-100);
+  }
+  .sidebar-user {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .75rem 1rem; border-radius: 10px;
+    background: var(--gray-50); cursor: pointer;
+  }
+  .user-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--red-vivid), var(--red-deep));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: .9rem;
+  }
+  .user-name { font-size: .88rem; font-weight: 600; color: var(--gray-700); }
+  .user-type { font-size: .72rem; color: var(--gray-400); }
+
+  /* ── MAIN CONTENT ──────────────────────────────────────────── */
+  .main-content {
+    flex: 1; margin-left: var(--sidebar-w);
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+  .topbar {
+    background: #fff; border-bottom: 1px solid var(--gray-200);
+    padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem;
+    position: sticky; top: 0; z-index: 50; box-shadow: var(--shadow-sm);
+  }
+  .topbar-title { font-size: 1.15rem; font-weight: 600; color: var(--gray-900); flex: 1; }
+  .topbar-search {
+    display: flex; align-items: center; gap: .5rem;
+    background: var(--gray-100); border-radius: 10px; padding: .5rem 1rem;
+    border: 1.5px solid transparent; transition: all .2s;
+  }
+  .topbar-search:focus-within { background: #fff; border-color: var(--red-light); }
+  .topbar-search input { border: none; background: none; outline: none; font-family: inherit; font-size: .88rem; width: 180px; color: var(--gray-700); }
+  .topbar-btn {
+    width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+    background: var(--gray-100); display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: all .18s; color: var(--gray-500);
+  }
+  .topbar-btn:hover { background: var(--red-pale); color: var(--red-deep); }
+  .topbar-btn.red { background: var(--red-pale); color: var(--red-deep); }
+  .menu-toggle { display: none; }
+  .content-area { padding: 2rem; flex: 1; animation: fadeUp .4s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+
+  .rotator {
+  position: absolute;
+  inset: 0;
+  animation: rotateOrbit 20s linear infinite;
+}
+
+@keyframes rotateOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+  /* ── CARDS ─────────────────────────────────────────────────── */
+  .card {
+    background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200); padding: 1.5rem;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card-title { font-size: 1.05rem; font-weight: 600; color: var(--gray-900); margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
+
+  /* ── STAT CARDS ─────────────────────────────────────────────── */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat-card {
+    background: #fff; border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before { content:''; position:absolute; right:-20px; top:-20px; width:80px; height:80px; border-radius:50%; opacity:.07; }
+  .stat-card.red::before { background: var(--red-vivid); }
+  .stat-card.green::before { background: #16a34a; }
+  .stat-card.blue::before { background: #2563eb; }
+  .stat-card.orange::before { background: #d97706; }
+  .stat-card-value { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+  .stat-card.red .stat-card-value { color: var(--red-deep); }
+  .stat-card.green .stat-card-value { color: #16a34a; }
+  .stat-card.blue .stat-card-value { color: #2563eb; }
+  .stat-card.orange .stat-card-value { color: #d97706; }
+  .stat-card-label { font-size: .78rem; color: var(--gray-500); margin-top: .3rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+  .stat-card-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+  .stat-card-change { font-size: .75rem; margin-top: .5rem; font-weight: 500; color: #16a34a; }
+
+  /* ── FORMS ─────────────────────────────────────────────────── */
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-label { font-size: .82rem; font-weight: 600; color: var(--gray-700); letter-spacing: .02em; }
+  .form-control {
+    padding: .72rem 1rem; border-radius: 10px;
+    border: 1.5px solid var(--gray-200); font-family: inherit; font-size: .9rem;
+    color: var(--gray-900); background: #fff; outline: none; transition: all .2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  .form-control:focus { border-color: var(--red-light); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+  .form-control::placeholder { color: var(--gray-400); }
+  .urgency-selector { display: flex; gap: .75rem; }
+  .urgency-opt { flex: 1; }
+  .urgency-opt input { display: none; }
+  .urgency-opt label {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: .75rem; border-radius: 10px; border: 2px solid var(--gray-200);
+    cursor: pointer; transition: all .18s; font-size: .85rem; font-weight: 500; color: var(--gray-500); gap: .3rem;
+  }
+  .urgency-opt input:checked + label { border-color: var(--red-vivid); background: var(--red-ultra); color: var(--red-deep); font-weight: 600; }
+  .urgency-opt label .urg-icon { font-size: 1.3rem; }
+  .btn {
+    padding: .8rem 1.75rem; border-radius: 10px; border: none; cursor: pointer;
+    font-family: inherit; font-size: .92rem; font-weight: 600;
+    transition: all .2s cubic-bezier(.16,1,.3,1); display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .btn-red { background: var(--red-vivid); color: #fff; box-shadow: 0 4px 16px rgba(220,38,38,.3); }
+  .btn-red:hover { background: var(--red-deep); transform: translateY(-2px); box-shadow: var(--shadow-red); }
+  .btn-red:active { transform: translateY(0); }
+  .btn-outline { background: #fff; color: var(--red-vivid); border: 2px solid var(--red-vivid); }
+  .btn-outline:hover { background: var(--red-ultra); }
+  .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
+  .btn-ghost:hover { background: var(--gray-200); }
+  .btn-sm { padding: .5rem 1rem; font-size: .82rem; border-radius: 8px; }
+  .btn-green { background: #16a34a; color: #fff; box-shadow: 0 4px 14px rgba(22,163,74,.25); }
+  .btn-green:hover { background: #15803d; transform: translateY(-2px); }
+  .loading-spinner {
+    display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ── DONOR CARDS ────────────────────────────────────────────── */
+  .donors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+  .donor-card {
+    background: #fff; border-radius: var(--radius); padding: 1.25rem;
+    border: 1.5px solid var(--gray-200); box-shadow: var(--shadow-sm);
+    transition: all .2s; position: relative; overflow: hidden;
+  }
+  .donor-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--red-light); }
+  .donor-card.emergency { border-color: var(--red-vivid); }
+  .donor-card.emergency::before { content:' EMERGENCY'; position:absolute; top:0; right:0; background:var(--red-vivid); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:0 14px 0 8px; letter-spacing:.06em; }
+  .donor-card.best-match { border-color: #d97706; }
+  .donor-card.best-match::after { content:' Best Match'; position:absolute; top:0; left:0; background:linear-gradient(90deg,#d97706,#f59e0b); color:#fff; font-size:.62rem; font-weight:700; padding:.25rem .6rem; border-radius:14px 0 8px 0; }
+  .donor-header { display: flex; align-items: center; gap: .85rem; margin-bottom: 1rem; }
+  .donor-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--red-light), var(--red-deep));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 1rem; flex-shrink: 0;
+  }
+  .donor-name { font-weight: 600; font-size: .95rem; color: var(--gray-900); }
+  .donor-meta { font-size: .78rem; color: var(--gray-500); margin-top: .1rem; }
+  .donor-badges { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+  .badge {
+    padding: .25rem .65rem; border-radius: 50px; font-size: .72rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: .3rem;
+  }
+  .badge-blood { background: var(--red-pale); color: var(--red-deep); }
+  .badge-city { background: #dbeafe; color: #1d4ed8; }
+  .badge-near { background: #dcfce7; color: #166534; }
+  .badge-last { background: var(--gray-100); color: var(--gray-600); }
+  .donor-actions { display: flex; gap: .6rem; }
+
+  /* ── BLOOD BANK CARDS ────────────────────────────────────────── */
+  .banks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .bank-card {
+    background: #fff; border-radius: var(--radius); padding: 1.25rem;
+    border: 1px solid var(--gray-200); box-shadow: var(--shadow-sm);
+    transition: all .2s; display: flex; flex-direction: column; gap: .85rem;
+  }
+  .bank-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .bank-icon-wrap {
+    width: 48px; height: 48px; background: var(--red-pale); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  }
+  .bank-name { font-weight: 600; font-size: .95rem; color: var(--gray-900); }
+  .bank-loc { font-size: .82rem; color: var(--gray-500); display: flex; align-items: center; gap: .3rem; }
+  .bank-hours { font-size: .78rem; color: #16a34a; font-weight: 500; }
+  .bank-avail { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .2rem; }
+  .avail-badge { padding: .2rem .5rem; background: var(--red-ultra); color: var(--red-deep); border-radius: 6px; font-size: .7rem; font-weight: 700; }
+
+  /* ── LIVE FEED ─────────────────────────────────────────────── */
+  .feed-list { display: flex; flex-direction: column; gap: 0; }
+  .feed-item {
+    display: flex; align-items: flex-start; gap: .85rem;
+    padding: .9rem 0; border-bottom: 1px solid var(--gray-100);
+    animation: feedIn .4s ease both;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  @keyframes feedIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+  .feed-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .feed-dot.red { background: var(--red-vivid); box-shadow: 0 0 0 3px rgba(220,38,38,.15); }
+  .feed-dot.green { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15); }
+  .feed-dot.blue { background: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+  .feed-body { flex: 1; }
+  .feed-text { font-size: .86rem; color: var(--gray-700); font-weight: 500; }
+  .feed-time { font-size: .72rem; color: var(--gray-400); margin-top: .15rem; }
+  .feed-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--red-vivid); animation: pulse-ring 1.4s cubic-bezier(.455,.03,.515,.955) infinite; }
+  @keyframes pulse-ring { 0%{box-shadow:0 0 0 0 rgba(220,38,38,.5)} 70%{box-shadow:0 0 0 8px rgba(220,38,38,0)} 100%{box-shadow:0 0 0 0 rgba(220,38,38,0)} }
+
+  /* ── PROFILE ─────────────────────────────────────────────────── */
+  .profile-header-card {
+    background: linear-gradient(135deg, var(--red-deep), var(--red-vivid));
+    border-radius: var(--radius); padding: 2rem; color: #fff; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1.5rem; position: relative; overflow: hidden;
+  }
+  .profile-header-card::after {
+    content: ; position: absolute; right: 2rem; bottom: -10px;
+    font-size: 6rem; opacity: .12;
+  }
+  .profile-avatar-lg {
+    width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 700; border: 3px solid rgba(255,255,255,.4); flex-shrink: 0;
+  }
+  .profile-name-lg { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+  .profile-blood-type {
+    display: inline-block; background: rgba(255,255,255,.2); padding: .2rem .8rem;
+    border-radius: 50px; font-size: .85rem; font-weight: 600; margin-top: .25rem;
+    backdrop-filter: blur(4px);
+  }
+  .profile-stats { display: flex; gap: 1.5rem; margin-top: .75rem; }
+  .profile-stat { text-align: center; }
+  .profile-stat-val { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+  .profile-stat-lbl { font-size: .72rem; opacity: .75; text-transform: uppercase; letter-spacing: .06em; }
+  .history-list { display: flex; flex-direction: column; gap: .75rem; margin-top: .5rem; }
+  .history-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem; border-radius: 12px; background: var(--gray-50);
+    border: 1px solid var(--gray-200); transition: all .18s;
+  }
+  .history-item:hover { background: #fff; box-shadow: var(--shadow-sm); }
+  .history-icon { font-size: 1.5rem; }
+  .history-info { flex: 1; }
+  .history-title { font-size: .9rem; font-weight: 600; color: var(--gray-800); }
+  .history-detail { font-size: .78rem; color: var(--gray-500); margin-top: .15rem; }
+  .history-badge { padding: .2rem .65rem; border-radius: 50px; font-size: .72rem; font-weight: 600; }
+  .hb-request { background: var(--red-pale); color: var(--red-deep); }
+  .hb-donate { background: #dcfce7; color: #15803d; }
+  .hb-emerg { background: #fee2e2; color: #991b1b; }
+
+  /* ── SUCCESS MSG ─────────────────────────────────────────────── */
+  .success-msg {
+    display: none; background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border: 1.5px solid #86efac; border-radius: var(--radius);
+    padding: 1.5rem; text-align: center; margin-top: 1.5rem;
+    animation: fadeUp .4s ease both;
+  }
+  .success-msg.show { display: block; }
+  .success-icon { font-size: 3rem; margin-bottom: .75rem; }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #15803d; }
+  .success-sub { font-size: .88rem; color: #166534; margin-top: .4rem; }
+
+  /* ── EMPTY STATE ─────────────────────────────────────────────── */
+  .empty-state { text-align: center; padding: 3rem 2rem; color: var(--gray-400); }
+  .empty-state .empty-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: .5; }
+  .empty-state .empty-title { font-size: 1rem; font-weight: 600; color: var(--gray-500); }
+  .empty-state .empty-sub { font-size: .85rem; margin-top: .3rem; }
+
+  /* ── SECTION HEADER ─────────────────────────────────────────── */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--gray-900); }
+  .section-sub { font-size: .82rem; color: var(--gray-500); margin-top: .2rem; }
+
+  /* ── BLOOD GROUP SELECTOR ────────────────────────────────────── */
+  .blood-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+  .blood-opt input { display: none; }
+  .blood-opt label {
+    display: flex; align-items: center; justify-content: center;
+    height: 44px; border-radius: 10px; border: 2px solid var(--gray-200);
+    cursor: pointer; font-weight: 700; font-size: .88rem; color: var(--gray-500);
+    transition: all .18s;
+  }
+  .blood-opt input:checked + label { border-color: var(--red-vivid); background: var(--red-pale); color: var(--red-deep); }
+  .blood-opt label:hover { border-color: var(--red-light); color: var(--red-light); }
+
+  /* ── DIVIDER / MISC ──────────────────────────────────────────── */
+  .divider { height: 1px; background: var(--gray-200); margin: 1.25rem 0; }
+  .match-banner {
+    background: linear-gradient(90deg, #fffbeb, #fef3c7); border: 1px solid #fde68a;
+    border-radius: 10px; padding: .85rem 1.25rem; display: flex; align-items: center; gap: .7rem;
+    font-size: .9rem; font-weight: 600; color: #92400e; margin-bottom: 1rem;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media(max-width:900px){ .two-col { grid-template-columns: 1fr; } }
+
+  /* ── MOBILE ──────────────────────────────────────────────────── */
+  @media(max-width:768px){
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 99; }
+    .sidebar-overlay.show { display: block; }
+    .main-content { margin-left: 0; }
+    .menu-toggle { display: flex; }
+    .topbar-search { display: none; }
+    .content-area { padding: 1.25rem; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .profile-header-card { flex-direction: column; text-align: center; }
+    .profile-stats { justify-content: center; }
+    .btn { width: 100%; justify-content: center; }
+  }
+
+  /* ── PAGE SECTIONS ───────────────────────────────────────────── */
+  .page-section { display: none; }
+  .page-section.active { display: block; animation: fadeUp .35s ease both; }
+
+  /* ── PROGRESS BAR ────────────────────────────────────────────── */
+  .top-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--red-vivid); width: 0; z-index: 9998; transition: width .3s ease; border-radius: 0 2px 2px 0; }
+
+  /* your existing CSS */
+
+  /* ── LOGIN ANIMATION STYLES ── */
+  body {
+    background: linear-gradient(135deg, #7f1d1d, #dc2626, #fee2e2, #ffffff);
+    background-size: 300% 300%;
+    animation: gradientFlow 8s ease infinite;
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .blood-orbit {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 2rem auto;
+    animation: rotateOrbit 20s linear infinite;
+     
+  }
+
+  @keyframes rotateOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .center-bubble {
+    position: absolute;
+    top: 61%;
+    left: 59%;
+    
+    
+  position: absolute;
+   
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    background: #dc2626;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+    box-shadow: 0 0 25px rgba(220,38,38,0.6);
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+  }
+ 
+   
+
+   .orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background: white;
+  color: #b91c1c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  transform-origin: center;
+}
+
+.orbit1 { transform: rotate(0deg) translate(120px) rotate(0deg); }
+.orbit2 { transform: rotate(51deg) translate(120px) rotate(-51deg); }
+.orbit3 { transform: rotate(102deg) translate(120px) rotate(-102deg); }
+.orbit4 { transform: rotate(153deg) translate(120px) rotate(-153deg); }
+.orbit5 { transform: rotate(204deg) translate(120px) rotate(-204deg); }
+.orbit6 { transform: rotate(255deg) translate(120px) rotate(-255deg); }
+.orbit7 { transform: rotate(306deg) translate(120px) rotate(-306deg); }
+
+</style>
 </head>
-
 <body>
 
-    <!-- PROGRESS BAR -->
-    <div class="top-progress" id="topProgress"></div>
+<!-- PROGRESS BAR -->
+<div class="top-progress" id="topProgress"></div>
 
+ 
+ 
 
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
+<!-- ══════════════════ LANDING PAGE ════════════════════ -->
+<div id="page-landing">
+  <div class="landing-noise"></div>
+  <div class="landing-orb orb1"></div>
+  <div class="landing-orb orb2"></div>
+  <div class="landing-orb orb3"></div>
+  <div class="landing-content">
+     <div class="blood-orbit">
+    <div class="center-bubble">O+</div>
 
-    <!-- SIDEBAR OVERLAY (mobile) -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <div class="orbit orbit1">A+</div>
+    <div class="orbit orbit2">B+</div>
+    <div class="orbit orbit3">AB+</div>
+    <div class="orbit orbit4">O-</div>
+    <div class="orbit orbit5">A-</div>
+    <div class="orbit orbit6">B-</div>
+    <div class="orbit orbit7">AB-</div></div>
+   
+    <div class="landing-stats">
 
-    <!-- ══════════════════ LANDING PAGE ════════════════════ -->
-    <div id="page-landing">
-        <div class="landing-noise"></div>
-        <div class="landing-orb orb1"></div>
-        <div class="landing-orb orb2"></div>
-        <div class="landing-orb orb3"></div>
-        <div class="landing-content">
-            <div class="landing-logo"><span>🩸</span> RaktSetu</div>
-            <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
-            <div class="landing-stats">
-                <div class="stat-item">
-                    <div class="stat-num">12,400+</div>
-                    <div class="stat-label">Donors</div>
+      <div class="stat-item"><div class="stat-num">12,400+</div><div class="stat-label">Donors</div></div>
+      <div class="stat-item"><div class="stat-num">8,200+</div><div class="stat-label">Lives Saved</div></div>
+      <div class="stat-item"><div class="stat-num">340+</div><div class="stat-label">Cities</div></div>
+    </div>
+      <div class="landing-logo"><span></span> RaktSetu</div>
+    <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
+  
+
+    <div class="landing-btns">
+      <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
+      <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
+    </div>
+  </div>
+  <div class="scroll-hint">▼ Scroll to explore</div>
+</div>
+
+<!-- ══════════════════ DASHBOARD ════════════════════ -->
+<div id="page-dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon"></div>
+      <div>
+        <div class="sidebar-brand-name">RaktSetu</div>
+        <div class="sidebar-brand-tagline">Blood Donation Platform</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <button class="nav-item active" id="nav-home" onclick="switchSection('home')">
+        <span class="nav-icon"></span> Dashboard
+      </button>
+      <button class="nav-item" id="nav-request" onclick="switchSection('request')">
+        <span class="nav-icon"></span> Request Blood
+        <span class="nav-badge" id="urgentBadge">3</span>
+      </button>
+      <button class="nav-item" id="nav-donate" onclick="switchSection('donate')">
+        <span class="nav-icon"></span> Donate Blood
+      </button>
+
+      <div class="nav-section-title" style="margin-top:.75rem">Discover</div>
+      <button class="nav-item" id="nav-banks" onclick="switchSection('banks')">
+        <span class="nav-icon"></span> Blood Banks
+      </button>
+      <button class="nav-item" id="nav-feed" onclick="switchSection('feed')">
+        <span class="nav-icon"></span> Live Feed
+        <span class="nav-badge" style="background:#16a34a">Live</span>
+      </button>
+
+      <div class="nav-section-title" style="margin-top:.75rem">Account</div>
+      <button class="nav-item" id="nav-profile" onclick="switchSection('profile')">
+        <span class="nav-icon"></span> My Profile
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">AK</div>
+        <div>
+          <div class="user-name">Aryan Kumar</div>
+          <div class="user-type">O+ Donor · Delhi</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <button class="topbar-btn menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-search">
+        <span></span>
+        <input type="text" placeholder="Search donors, cities…">
+      </div>
+      <button class="topbar-btn red" onclick="showNotif()">🔔</button>
+      <button class="topbar-btn" onclick="enterLanding()">🚪</button>
+    </div>
+
+    <div class="content-area">
+
+      <!-- ────────────── HOME DASHBOARD ────────────── -->
+      <div class="page-section active" id="section-home">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Welcome back, Aryan 👋</div>
+            <div class="section-sub">Here's what's happening across RaktSetu today.</div>
+          </div>
+          <button class="btn btn-red btn-sm" onclick="switchSection('request')">🆘 Emergency Request</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card red">
+            <div class="stat-card-icon">🩸</div>
+            <div class="stat-card-value">247</div>
+            <div class="stat-card-label">Active Donors</div>
+            <div class="stat-card-change">↑ 12 today</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-icon">🆘</div>
+            <div class="stat-card-value">34</div>
+            <div class="stat-card-label">Urgent Requests</div>
+            <div class="stat-card-change" style="color:var(--red-vivid)">↑ 3 new</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-icon">✅</div>
+            <div class="stat-card-value">18</div>
+            <div class="stat-card-label">Matched Today</div>
+            <div class="stat-card-change">↑ 5 from yesterday</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-card-icon">🏥</div>
+            <div class="stat-card-value">12</div>
+            <div class="stat-card-label">Blood Banks</div>
+            <div class="stat-card-change">In your city</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">⚡ Live Activity</div>
+            <div class="feed-list" id="dashFeed">
+              <!-- populated by JS -->
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🗺️ Blood Availability</div>
+            <div id="bloodAvailChart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────── REQUEST BLOOD ────────────── -->
+      <div class="page-section" id="section-request">
+        <div class="section-header">
+          <div>
+            <div class="section-title">🆘 Request Blood</div>
+            <div class="section-sub">Fill the form below — we'll find the best donors near you.</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">📋 Request Details</div>
+            <div style="display:flex;flex-direction:column;gap:1.1rem">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Patient Name</label>
+                  <input class="form-control" type="text" placeholder="Enter full name" id="req-name">
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num">8,200+</div>
-                    <div class="stat-label">Lives Saved</div>
+                <div class="form-group">
+                  <label class="form-label">City</label>
+                  <input class="form-control" type="text" placeholder="e.g. Delhi, Noida…" id="req-city">
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num">340+</div>
-                    <div class="stat-label">Cities</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Blood Group Required</label>
+                <div class="blood-grid">
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-ap" value="A+"><label for="bg-ap">A+</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-an" value="A-"><label for="bg-an">A-</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-bp" value="B+"><label for="bg-bp">B+</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-bn" value="B-"><label for="bg-bn">B-</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-op" value="O+" checked><label for="bg-op">O+</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-on" value="O-"><label for="bg-on">O-</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-abp" value="AB+"><label for="bg-abp">AB+</label></div>
+                  <div class="blood-opt"><input type="radio" name="req-bg" id="bg-abn" value="AB-"><label for="bg-abn">AB-</label></div>
                 </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Urgency Level</label>
+                <div class="urgency-selector">
+                  <div class="urgency-opt"><input type="radio" name="urgency" id="urg-normal" value="normal" checked><label for="urg-normal"><span class="urg-icon">🟢</span>Normal</label></div>
+                  <div class="urgency-opt"><input type="radio" name="urgency" id="urg-urgent" value="urgent"><label for="urg-urgent"><span class="urg-icon">🟡</span>Urgent</label></div>
+                  <div class="urgency-opt"><input type="radio" name="urgency" id="urg-emergency" value="emergency"><label for="urg-emergency"><span class="urg-icon">🔴</span>Emergency</label></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Hospital / Additional Notes</label>
+                <textarea class="form-control" rows="3" placeholder="e.g. AIIMS Delhi, ICU Ward 4…" id="req-note" style="resize:vertical"></textarea>
+              </div>
+
+              <button class="btn btn-red" onclick="submitRequest()">
+                <span id="reqBtnText">🔍 Find Matching Donors</span>
+                <div class="loading-spinner" id="reqSpinner"></div>
+              </button>
             </div>
           </div>
 
           <div>
             <div class="card" id="donorResultsCard" style="display:none">
-              <div class="match-banner" id="matchBanner"> Best match found near you!</div>
+              <div class="match-banner" id="matchBanner">⭐ Best match found near you!</div>
               <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
               <div class="donors-grid" id="donorsList"></div>
             </div>
@@ -1588,579 +800,276 @@
                 <div class="empty-title">No donors found</div>
                 <div class="empty-sub">Try a different blood group or nearby city</div>
               </div>
-            <div class="landing-btns">
-                <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
-                <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
             </div>
+          </div>
         </div>
-        <div class="scroll-hint">▼ Scroll to explore</div>
-    </div>
+      </div>
 
-    <!-- ══════════════════ DASHBOARD ════════════════════ -->
-    <div id="page-dashboard">
+      <!-- ────────────── DONATE BLOOD ────────────── -->
+      <div class="page-section" id="section-donate">
+        <div class="section-header">
+          <div>
+            <div class="section-title">🩸 Register as Donor</div>
+            <div class="section-sub">Your one act can save up to 3 lives.</div>
+          </div>
+        </div>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-brand">
-                <div class="sidebar-brand-icon">🩸</div>
-                <div>
-                    <div class="sidebar-brand-name">RaktSetu</div>
-                   
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">📝 Donor Registration</div>
+            <div style="display:flex;flex-direction:column;gap:1.1rem">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Full Name</label>
+                  <input class="form-control" type="text" placeholder="Your full name" id="don-name">
                 </div>
+                <div class="form-group">
+                  <label class="form-label">Age</label>
+                  <input class="form-control" type="number" placeholder="18-65" min="18" max="65" id="don-age">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Blood Group</label>
+                <div class="blood-grid">
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-ap" value="A+"><label for="dbg-ap">A+</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-an" value="A-"><label for="dbg-an">A-</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-bp" value="B+"><label for="dbg-bp">B+</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-bn" value="B-"><label for="dbg-bn">B-</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-op" value="O+" checked><label for="dbg-op">O+</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-on" value="O-"><label for="dbg-on">O-</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-abp" value="AB+"><label for="dbg-abp">AB+</label></div>
+                  <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-abn" value="AB-"><label for="dbg-abn">AB-</label></div>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">City</label>
+                  <input class="form-control" type="text" placeholder="Your city" id="don-city">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Number</label>
+                  <input class="form-control" type="tel" placeholder="+91 XXXXX XXXXX" id="don-phone">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Last Donation (optional)</label>
+                <input class="form-control" type="date" id="don-lastdate">
+              </div>
+
+              <button class="btn btn-red" onclick="submitDonate()">
+                <span id="donBtnText">❤️ Register as Donor</span>
+                <div class="loading-spinner" id="donSpinner"></div>
+              </button>
             </div>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section-title">Main</div>
-                <button class="nav-item active" id="nav-home" onclick="switchSection('home')">
-                    <span class="nav-icon">🏠</span> Dashboard
-                </button>
-                <button class="nav-item" id="nav-request" onclick="switchSection('request')">
-                    <span class="nav-icon">🆘</span> Request Blood
-                    <span class="nav-badge" id="urgentBadge">3</span>
-                </button>
-                <button class="nav-item" id="nav-donate" onclick="switchSection('donate')">
-                    <span class="nav-icon">🩸</span> Donate Blood
-                </button>
-
-                <div class="nav-section-title" style="margin-top:.75rem">Discover</div>
-                <button class="nav-item" id="nav-banks" onclick="switchSection('banks')">
-                    <span class="nav-icon">🏥</span> Blood Banks
-                </button>
-                <button class="nav-item" id="nav-feed" onclick="switchSection('feed')">
-                    <span class="nav-icon">⚡</span> Live Feed
-                    <span class="nav-badge" style="background:#16a34a">Live</span>
-                </button>
-
-                <div class="nav-section-title" style="margin-top:.75rem">Account</div>
-                <button class="nav-item" id="nav-profile" onclick="switchSection('profile')">
-                    <span class="nav-icon">👤</span> My Profile
-                </button>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="sidebar-user">
-                    <div class="user-avatar">AK</div>
-                    <div>
-                        <div class="user-name">Aryan Kumar</div>
-                        <div class="user-type">O+ Donor · Delhi</div>
-                    </div>
-                </div>
+            <div class="success-msg" id="donSuccessMsg">
+              <div class="success-icon">🎉</div>
+              <div class="success-title">You're now a registered donor!</div>
+              <div class="success-sub">Thank you for stepping up. We'll notify you when someone near you needs your blood type.</div>
             </div>
-        </aside>
+          </div>
 
-        <!-- MAIN CONTENT -->
-        <div class="main-content">
-            <!-- TOPBAR -->
-            <div class="topbar">
-                <button class="topbar-btn menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
-                <div class="topbar-title" id="topbarTitle">Dashboard</div>
-                <div class="topbar-search">
-                    <span>🔍</span>
-                    <input type="text" placeholder="Search donors, cities…">
+          <div class="card">
+            <div class="card-title">💡 Why Donate?</div>
+            <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.25rem">
+              <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:var(--red-ultra);border-radius:10px">
+                <span style="font-size:1.5rem">🌍</span>
+                <div><strong style="font-size:.9rem;color:var(--gray-900)">Every 2 seconds</strong><p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Someone in India needs blood. Your donation bridges that gap.</p></div>
+              </div>
+              <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#f0fdf4;border-radius:10px">
+                <span style="font-size:1.5rem">❤️</span>
+                <div><strong style="font-size:.9rem;color:var(--gray-900)">1 donation = 3 lives</strong><p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Whole blood splits into red cells, platelets and plasma — each helps someone different.</p></div>
+              </div>
+              <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#eff6ff;border-radius:10px">
+                <span style="font-size:1.5rem">🏥</span>
+                <div><strong style="font-size:.9rem;color:var(--gray-900)">Safe & quick</strong><p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">The entire process takes under 30 minutes. Your body replenishes blood within 24–48 hours.</p></div>
+              </div>
+              <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#fdf4ff;border-radius:10px">
+                <span style="font-size:1.5rem">🩺</span>
+                <div><strong style="font-size:.9rem;color:var(--gray-900)">Free health check</strong><p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Every donation includes a mini health screening — blood pressure, hemoglobin and more.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────── BLOOD BANKS ────────────── -->
+      <div class="page-section" id="section-banks">
+        <div class="section-header">
+          <div>
+            <div class="section-title">🏥 Nearby Blood Banks</div>
+            <div class="section-sub">Verified blood banks available in your area.</div>
+          </div>
+          <button class="btn btn-outline btn-sm">📍 Change Location</button>
+        </div>
+        <div class="banks-grid" id="banksList"></div>
+      </div>
+
+      <!-- ────────────── LIVE FEED ────────────── -->
+      <div class="page-section" id="section-feed">
+        <div class="section-header">
+          <div>
+            <div class="section-title">⚡ Live Activity Feed</div>
+            <div class="section-sub">Real-time blood donation activity across India.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem">
+            <div class="feed-pulse"></div>
+            <span style="font-size:.82rem;color:#16a34a;font-weight:600">Live</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="feed-list" id="fullFeed"></div>
+        </div>
+      </div>
+
+      <!-- ────────────── PROFILE ────────────── -->
+      <div class="page-section" id="section-profile">
+        <div class="section-title" style="margin-bottom:1.25rem">👤 My Profile</div>
+
+        <div class="profile-header-card">
+          <div class="profile-avatar-lg">AK</div>
+          <div>
+            <div class="profile-name-lg">Aryan Kumar</div>
+            <div style="font-size:.88rem;opacity:.8;margin-top:.2rem">aryan.kumar@email.com · +91 98765 43210</div>
+            <div class="profile-blood-type">🩸 O+ Blood Group</div>
+            <div class="profile-stats">
+              <div class="profile-stat"><div class="profile-stat-val">4</div><div class="profile-stat-lbl">Donations</div></div>
+              <div class="profile-stat"><div class="profile-stat-val">2</div><div class="profile-stat-lbl">Requests</div></div>
+              <div class="profile-stat"><div class="profile-stat-val">12</div><div class="profile-stat-lbl">Lives Touched</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">🩸 Donation History</div>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-icon">🩸</div>
+                <div class="history-info">
+                  <div class="history-title">Donated O+ in Delhi</div>
+                  <div class="history-detail">AIIMS Blood Bank · Jan 15, 2025</div>
                 </div>
-                <button class="topbar-btn red" onclick="showNotif()">🔔</button>
-                <button class="topbar-btn" onclick="enterLanding()">🚪</button>
+                <span class="history-badge hb-donate">Donated</span>
+              </div>
+              <div class="history-item">
+                <div class="history-icon">🩸</div>
+                <div class="history-info">
+                  <div class="history-title">Donated O+ in Noida</div>
+                  <div class="history-detail">Fortis Hospital · Oct 3, 2024</div>
+                </div>
+                <span class="history-badge hb-donate">Donated</span>
+              </div>
+              <div class="history-item">
+                <div class="history-icon">🩸</div>
+                <div class="history-info">
+                  <div class="history-title">Donated O+ in Delhi</div>
+                  <div class="history-detail">Red Cross Delhi · Jul 22, 2024</div>
+                </div>
+                <span class="history-badge hb-donate">Donated</span>
+              </div>
+              <div class="history-item">
+                <div class="history-icon">🩸</div>
+                <div class="history-info">
+                  <div class="history-title">Donated O+ in Ghaziabad</div>
+                  <div class="history-detail">District Hospital · Mar 10, 2024</div>
+                </div>
+                <span class="history-badge hb-donate">Donated</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🆘 Request History</div>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-icon">🚨</div>
+                <div class="history-info">
+                  <div class="history-title">Requested O+ in Delhi</div>
+                  <div class="history-detail">Emergency · AIIMS Delhi · Feb 2, 2025</div>
+                </div>
+                <span class="history-badge hb-emerg">Emergency</span>
+              </div>
+              <div class="history-item">
+                <div class="history-icon">📋</div>
+                <div class="history-info">
+                  <div class="history-title">Requested A+ in Noida</div>
+                  <div class="history-detail">Normal · For relative · Sep 15, 2024</div>
+                </div>
+                <span class="history-badge hb-request">Request</span>
+              </div>
             </div>
 
-            <div class="content-area">
-
-                <!-- ────────────── HOME DASHBOARD ────────────── -->
-                <div class="page-section active" id="section-home">
-                    <div class="section-header">
-                        <div>
-                            <div class="section-title">Welcome back, Aryan 👋</div>
-                            <div class="section-sub">Here's what's happening across RaktSetu today.</div>
-                        </div>
-                        <button class="btn btn-red btn-sm" onclick="switchSection('request')">🆘 Emergency
-                            Request</button>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card red">
-                            <div class="stat-card-icon">🩸</div>
-                            <div class="stat-card-value">247</div>
-                            <div class="stat-card-label">Active Donors</div>
-                            <div class="stat-card-change">↑ 12 today</div>
-                        </div>
-                        <div class="stat-card orange">
-                            <div class="stat-card-icon">🆘</div>
-                            <div class="stat-card-value">34</div>
-                            <div class="stat-card-label">Urgent Requests</div>
-                            <div class="stat-card-change" style="color:var(--red-vivid)">↑ 3 new</div>
-                        </div>
-                        <div class="stat-card green">
-                            <div class="stat-card-icon">✅</div>
-                            <div class="stat-card-value">18</div>
-                            <div class="stat-card-label">Matched Today</div>
-                            <div class="stat-card-change">↑ 5 from yesterday</div>
-                        </div>
-                        <div class="stat-card blue">
-                            <div class="stat-card-icon">🏥</div>
-                            <div class="stat-card-value">12</div>
-                            <div class="stat-card-label">Blood Banks</div>
-                            <div class="stat-card-change">In your city</div>
-                        </div>
-                    </div>
-
-                    <div class="two-col">
-                        <div class="card">
-                            <div class="card-title">⚡ Live Activity</div>
-                            <div class="feed-list" id="dashFeed">
-                                <!-- populated by JS -->
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">🗺️ Blood Availability</div>
-                            <div id="bloodAvailChart"></div>
-                        </div>
-                    </div>
+            <div class="divider"></div>
+            <div class="card-title" style="margin-bottom:.75rem">⚙️ Settings</div>
+            <div style="display:flex;flex-direction:column;gap:.6rem">
+              <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+                <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Available to donate</span>
+                <div class="toggle-wrap" onclick="this.classList.toggle('on')" style="width:42px;height:24px;background:var(--red-vivid);border-radius:50px;position:relative;transition:.2s;cursor:pointer">
+                  <div style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s"></div>
                 </div>
-
-                <!-- ────────────── REQUEST BLOOD ────────────── -->
-                <div class="page-section" id="section-request">
-                    <div class="section-header">
-                        <div>
-                            <div class="section-title">🆘 Request Blood</div>
-                            <div class="section-sub">Fill the form below — we'll find the best donors near you.</div>
-                        </div>
-                    </div>
-
-                    <div class="two-col">
-                        <div class="card">
-                            <div class="card-title">📋 Request Details</div>
-                            <div style="display:flex;flex-direction:column;gap:1.1rem">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Patient Name</label>
-                                        <input class="form-control" type="text" placeholder="Enter full name"
-                                            id="req-name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">City</label>
-                                        <input class="form-control" type="text" placeholder="e.g. Delhi, Noida…"
-                                            id="req-city">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Blood Group Required</label>
-                                    <div class="blood-grid">
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-ap"
-                                                value="A+"><label for="bg-ap">A+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-an"
-                                                value="A-"><label for="bg-an">A-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-bp"
-                                                value="B+"><label for="bg-bp">B+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-bn"
-                                                value="B-"><label for="bg-bn">B-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-op" value="O+"
-                                                checked><label for="bg-op">O+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-on"
-                                                value="O-"><label for="bg-on">O-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-abp"
-                                                value="AB+"><label for="bg-abp">AB+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="req-bg" id="bg-abn"
-                                                value="AB-"><label for="bg-abn">AB-</label></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Urgency Level</label>
-                                    <div class="urgency-selector">
-                                        <div class="urgency-opt"><input type="radio" name="urgency" id="urg-normal"
-                                                value="normal" checked><label for="urg-normal"><span
-                                                    class="urg-icon">🟢</span>Normal</label></div>
-                                        <div class="urgency-opt"><input type="radio" name="urgency" id="urg-urgent"
-                                                value="urgent"><label for="urg-urgent"><span
-                                                    class="urg-icon">🟡</span>Urgent</label></div>
-                                        <div class="urgency-opt"><input type="radio" name="urgency" id="urg-emergency"
-                                                value="emergency"><label for="urg-emergency"><span
-                                                    class="urg-icon">🔴</span>Emergency</label></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Hospital / Additional Notes</label>
-                                    <textarea class="form-control" rows="3" placeholder="e.g. AIIMS Delhi, ICU Ward 4…"
-                                        id="req-note" style="resize:vertical"></textarea>
-                                </div>
-
-                                <button class="btn btn-red" onclick="submitRequest()">
-                                    <span id="reqBtnText">🔍 Find Matching Donors</span>
-                                    <div class="loading-spinner" id="reqSpinner"></div>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="card" id="donorResultsCard" style="display:none">
-                                <div class="match-banner" id="matchBanner">⭐ Best match found near you!</div>
-                                <div class="card-title">👥 Matching Donors <span id="donorCount"
-                                        style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span>
-                                </div>
-                                <div class="donors-grid" id="donorsList"></div>
-                                <div style="margin-top:20px;">
-  <div class="card-title">🏥 Nearby Blood Banks</div>
-  <div id="banksListInline" class="banks-grid"></div>
-</div>
-                            </div>
-                            <div class="card" id="noDonorsCard" style="display:none">
-                                <div class="empty-state">
-                                    <div class="empty-icon">😔</div>
-                                    <div class="empty-title">No donors found</div>
-                                    <div class="empty-sub">Try a different blood group or nearby city</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              </label>
+              <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+                <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Emergency notifications</span>
+                <div style="width:42px;height:24px;background:var(--red-vivid);border-radius:50px;position:relative;cursor:pointer">
+                  <div style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff"></div>
                 </div>
-
-                <!-- ────────────── DONATE BLOOD ────────────── -->
-                <div class="page-section" id="section-donate">
-                    <div class="section-header">
-                        <div>
-                            <div class="section-title">🩸 Register as Donor</div>
-                            <div class="section-sub">Your one act can save up to 3 lives.</div>
-                        </div>
-                    </div>
-
-                    <div class="two-col">
-                        <div class="card">
-                            <div class="card-title">📝 Donor Registration</div>
-                            <div style="display:flex;flex-direction:column;gap:1.1rem">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Full Name</label>
-                                        <input class="form-control" type="text" placeholder="Your full name"
-                                            id="don-name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Age</label>
-                                        <input class="form-control" type="number" placeholder="18-65" min="18" max="65"
-                                            id="don-age">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Blood Group</label>
-                                    <div class="blood-grid">
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-ap"
-                                                value="A+"><label for="dbg-ap">A+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-an"
-                                                value="A-"><label for="dbg-an">A-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-bp"
-                                                value="B+"><label for="dbg-bp">B+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-bn"
-                                                value="B-"><label for="dbg-bn">B-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-op" value="O+"
-                                                checked><label for="dbg-op">O+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-on"
-                                                value="O-"><label for="dbg-on">O-</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-abp"
-                                                value="AB+"><label for="dbg-abp">AB+</label></div>
-                                        <div class="blood-opt"><input type="radio" name="don-bg" id="dbg-abn"
-                                                value="AB-"><label for="dbg-abn">AB-</label></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">City</label>
-                                        <input class="form-control" type="text" placeholder="Your city" id="don-city">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Contact Number</label>
-                                        <input class="form-control" type="tel" placeholder="+91 XXXXX XXXXX"
-                                            id="don-phone">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Last Donation (optional)</label>
-                                    <input class="form-control" type="date" id="don-lastdate">
-                                </div>
-
-                                <button class="btn btn-red" onclick="submitDonate()">
-                                    <span id="donBtnText">❤️ Register as Donor</span>
-                                    <div class="loading-spinner" id="donSpinner"></div>
-                                </button>
-                            </div>
-
-                            <div class="success-msg" id="donSuccessMsg">
-                                <div class="success-icon">🎉</div>
-                                <div class="success-title">You're now a registered donor!</div>
-                                <div class="success-sub">Thank you for stepping up. We'll notify you when someone near
-                                    you needs your blood type.</div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-title">💡 Why Donate?</div>
-                            <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.25rem">
-                                <div
-                                    style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:var(--red-ultra);border-radius:10px">
-                                    <span style="font-size:1.5rem">🌍</span>
-                                    <div><strong style="font-size:.9rem;color:var(--gray-900)">Every 2 seconds</strong>
-                                        <p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Someone in
-                                            India needs blood. Your donation bridges that gap.</p>
-                                    </div>
-                                </div>
-                                <div
-                                    style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#f0fdf4;border-radius:10px">
-                                    <span style="font-size:1.5rem">❤️</span>
-                                    <div><strong style="font-size:.9rem;color:var(--gray-900)">1 donation = 3
-                                            lives</strong>
-                                        <p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Whole blood
-                                            splits into red cells, platelets and plasma — each helps someone different.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div
-                                    style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#eff6ff;border-radius:10px">
-                                    <span style="font-size:1.5rem">🏥</span>
-                                    <div><strong style="font-size:.9rem;color:var(--gray-900)">Safe & quick</strong>
-                                        <p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">The entire
-                                            process takes under 30 minutes. Your body replenishes blood within 24–48
-                                            hours.</p>
-                                    </div>
-                                </div>
-                                <div
-                                    style="display:flex;gap:.75rem;align-items:flex-start;padding:.9rem;background:#fdf4ff;border-radius:10px">
-                                    <span style="font-size:1.5rem">🩺</span>
-                                    <div><strong style="font-size:.9rem;color:var(--gray-900)">Free health
-                                            check</strong>
-                                        <p style="font-size:.8rem;color:var(--gray-500);margin-top:.2rem">Every donation
-                                            includes a mini health screening — blood pressure, hemoglobin and more.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              </label>
+              <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+                <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Location sharing</span>
+                <div style="width:42px;height:24px;background:var(--gray-300);border-radius:50px;position:relative;cursor:pointer">
+                  <div style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff"></div>
                 </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <!-- ────────────── BLOOD BANKS ────────────── -->
-                <div class="page-section" id="section-banks">
-                    <div class="section-header">
-                        <div>
-                            <div class="section-title">🏥 Nearby Blood Banks</div>
-                            <div class="section-sub">Verified blood banks available in your area.</div>
-                        </div>
-                        <button class="btn btn-outline btn-sm">📍 Change Location</button>
-                    </div>
-                    <div class="banks-grid" id="banksList"></div>
-                </div>
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /page-dashboard -->
 
-                <!-- ────────────── LIVE FEED ────────────── -->
-                <div class="page-section" id="section-feed">
-                    <div class="section-header">
-                        <div>
-                            <div class="section-title">⚡ Live Activity Feed</div>
-                            <div class="section-sub">Real-time blood donation activity across India.</div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:.5rem">
-                            <div class="feed-pulse"></div>
-                            <span style="font-size:.82rem;color:#16a34a;font-weight:600">Live</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="feed-list" id="fullFeed"></div>
-                    </div>
-                </div>
+<script>
+// ──────────────── MOCK DATA ────────────────
+const mockDonors = [
+  { name:"Rahul Kumar", blood:"O+", city:"Delhi", phone:"98765-43210", lastDon:"2 months ago", verified:true },
+  { name:"Priya Sharma", blood:"O+", city:"Delhi", phone:"87654-32109", lastDon:"3 months ago", verified:true },
+  { name:"Amit Singh", blood:"O-", city:"Noida", phone:"76543-21098", lastDon:"1 month ago", verified:false },
+  { name:"Sneha Patel", blood:"A+", city:"Delhi", phone:"65432-10987", lastDon:"45 days ago", verified:true },
+  { name:"Ravi Verma", blood:"B+", city:"Ghaziabad", phone:"54321-09876", lastDon:"6 weeks ago", verified:true },
+  { name:"Kavya Nair", blood:"AB+", city:"Delhi", phone:"43210-98765", lastDon:"2 weeks ago", verified:false },
+];
 
-                <!-- ────────────── PROFILE ────────────── -->
-                <div class="page-section" id="section-profile">
-                    <div class="section-title" style="margin-bottom:1.25rem">👤 My Profile</div>
+const bloodBanks = [
+  { name:"AIIMS Blood Bank", loc:"Ansari Nagar, Delhi", dist:"2.3 km", hours:"24/7 Open", avail:["O+","A+","B+","AB+","O-"] },
+  { name:"Red Cross Delhi", loc:"Red Cross Road, Connaught Place", dist:"5.1 km", hours:"8 AM – 8 PM", avail:["O+","A+","B-","AB-"] },
+  { name:"Fortis Blood Centre", loc:"Sector 62, Noida", dist:"8.4 km", hours:"24/7 Open", avail:["A+","B+","O+","O-","AB+"] },
+  { name:"Apollo Blood Bank", loc:"Jasola, Delhi", dist:"12 km", hours:"7 AM – 10 PM", avail:["O+","A-","B+"] },
+  { name:"Max Hospital Bank", loc:"Saket, Delhi", dist:"14 km", hours:"24/7 Open", avail:["O+","O-","A+","AB+","B-"] },
+  { name:"Safdarjung Blood Bank", loc:"Safdarjung, Delhi", dist:"6.7 km", hours:"9 AM – 6 PM", avail:["A+","A-","B+","O+"] },
+];
 
-                    <div class="profile-header-card">
-                        <div class="profile-avatar-lg">AK</div>
-                        <div>
-                            <div class="profile-name-lg">Aryan Kumar</div>
-                            <div style="font-size:.88rem;opacity:.8;margin-top:.2rem">aryan.kumar@email.com · +91 98765
-                                43210</div>
-                            <div class="profile-blood-type">🩸 O+ Blood Group</div>
-                            <div class="profile-stats">
-                                <div class="profile-stat">
-                                    <div class="profile-stat-val">4</div>
-                                    <div class="profile-stat-lbl">Donations</div>
-                                </div>
-                                <div class="profile-stat">
-                                    <div class="profile-stat-val">2</div>
-                                    <div class="profile-stat-lbl">Requests</div>
-                                </div>
-                                <div class="profile-stat">
-                                    <div class="profile-stat-val">12</div>
-                                    <div class="profile-stat-lbl">Lives Touched</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+const feedItems = [
+  { dot:"red", text:"🚨 O+ needed urgently in Delhi — AIIMS ICU", time:"Just now", emerg:true },
+  { dot:"green", text:"✅ New donor Priya S. (A+) registered in Noida", time:"2 min ago" },
+  { dot:"red", text:"🩸 B- blood needed in Ghaziabad — 2 units", time:"5 min ago" },
+  { dot:"green", text:"✅ Match found! Rahul K. contacted for O+ in Delhi", time:"8 min ago" },
+  { dot:"blue", text:"🏥 Red Cross Delhi received 12 units of O+", time:"12 min ago" },
+  { dot:"red", text:"🚨 AB- urgently needed — Fortis Noida", time:"15 min ago", emerg:true },
+  { dot:"green", text:"✅ Sneha P. completed donation at AIIMS", time:"20 min ago" },
+  { dot:"blue", text:"📢 Blood drive at Connaught Place tomorrow, 9 AM", time:"25 min ago" },
+  { dot:"green", text:"✅ Amit S. (O-) just registered in Delhi", time:"31 min ago" },
+  { dot:"red", text:"🩸 A+ needed — Safdarjung Hospital, Ward 3", time:"40 min ago" },
+];
 
-                    <div class="two-col">
-                        <div class="card">
-                            <div class="card-title">🩸 Donation History</div>
-                            <div class="history-list">
-                                <div class="history-item">
-                                    <div class="history-icon">🩸</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Donated O+ in Delhi</div>
-                                        <div class="history-detail">AIIMS Blood Bank · Jan 15, 2025</div>
-                                    </div>
-                                    <span class="history-badge hb-donate">Donated</span>
-                                </div>
-                                <div class="history-item">
-                                    <div class="history-icon">🩸</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Donated O+ in Noida</div>
-                                        <div class="history-detail">Fortis Hospital · Oct 3, 2024</div>
-                                    </div>
-                                    <span class="history-badge hb-donate">Donated</span>
-                                </div>
-                                <div class="history-item">
-                                    <div class="history-icon">🩸</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Donated O+ in Delhi</div>
-                                        <div class="history-detail">Red Cross Delhi · Jul 22, 2024</div>
-                                    </div>
-                                    <span class="history-badge hb-donate">Donated</span>
-                                </div>
-                                <div class="history-item">
-                                    <div class="history-icon">🩸</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Donated O+ in Ghaziabad</div>
-                                        <div class="history-detail">District Hospital · Mar 10, 2024</div>
-                                    </div>
-                                    <span class="history-badge hb-donate">Donated</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-title">🆘 Request History</div>
-                            <div class="history-list">
-                                <div class="history-item">
-                                    <div class="history-icon">🚨</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Requested O+ in Delhi</div>
-                                        <div class="history-detail">Emergency · AIIMS Delhi · Feb 2, 2025</div>
-                                    </div>
-                                    <span class="history-badge hb-emerg">Emergency</span>
-                                </div>
-                                <div class="history-item">
-                                    <div class="history-icon">📋</div>
-                                    <div class="history-info">
-                                        <div class="history-title">Requested A+ in Noida</div>
-                                        <div class="history-detail">Normal · For relative · Sep 15, 2024</div>
-                                    </div>
-                                    <span class="history-badge hb-request">Request</span>
-                                </div>
-                            </div>
-
-                            <div class="divider"></div>
-                            <div class="card-title" style="margin-bottom:.75rem">⚙️ Settings</div>
-                            <div style="display:flex;flex-direction:column;gap:.6rem">
-                                <label
-                                    style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
-                                    <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Available to
-                                        donate</span>
-                                    <div class="toggle-wrap" onclick="this.classList.toggle('on')"
-                                        style="width:42px;height:24px;background:var(--red-vivid);border-radius:50px;position:relative;transition:.2s;cursor:pointer">
-                                        <div
-                                            style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s">
-                                        </div>
-                                    </div>
-                                </label>
-                                <label
-                                    style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
-                                    <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Emergency
-                                        notifications</span>
-                                    <div
-                                        style="width:42px;height:24px;background:var(--red-vivid);border-radius:50px;position:relative;cursor:pointer">
-                                        <div
-                                            style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff">
-                                        </div>
-                                    </div>
-                                </label>
-                                <label
-                                    style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">
-                                    <span style="font-size:.88rem;color:var(--gray-700);font-weight:500">Location
-                                        sharing</span>
-                                    <div
-                                        style="width:42px;height:24px;background:var(--gray-300);border-radius:50px;position:relative;cursor:pointer">
-                                        <div
-                                            style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff">
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- /content-area -->
-        </div><!-- /main-content -->
-    </div><!-- /page-dashboard -->
-
-    <script>
-        // ──────────────── MOCK DATA ────────────────
-        const mockDonors = [
-            { name: "Rahul Kumar", blood: "O+", city: "Delhi", phone: "98765-43210", lastDon: "2 months ago", verified: true },
-            { name: "Priya Sharma", blood: "O+", city: "Delhi", phone: "87654-32109", lastDon: "3 months ago", verified: true },
-            { name: "Amit Singh", blood: "O-", city: "Noida", phone: "76543-21098", lastDon: "1 month ago", verified: false },
-            { name: "Sneha Patel", blood: "A+", city: "Delhi", phone: "65432-10987", lastDon: "57 days ago", verified: true },
-            { name: "Ravi Verma", blood: "B+", city: "Ghaziabad", phone: "54321-09876", lastDon: "6 weeks ago", verified: true },
-            { name: "Kavya Nair", blood: "AB+", city: "Delhi", phone: "87210-98765", lastDon: "9 weeks ago", verified: false },
-        ];
-
-        // Smart Match score
-        function getMatchDetails(donor, userCity) {
-            let score = 0;
-            let reasons = [];
-
-            if (donor.city.toLowerCase() === userCity.toLowerCase()) {
-                score += 50;
-                reasons.push("📍 Same city");
-            }
-
-            if (donor.lastDon.includes("month") || donor.lastDon.includes("week")) {
-                score += 30;
-                reasons.push("🕒 Recently active");
-            }
-
-            score += 20;
-            reasons.push("✔ Available");
-
-            return { score, reasons };
-        }
-
-        // 
-
-
-        const bloodBanks = [
-            { name: "AIIMS Blood Bank", loc: "Ansari Nagar, Delhi", dist: "2.3 km", hours: "24/7 Open", avail: ["O+", "A+", "B+", "AB+", "O-"] },
-            { name: "Red Cross Delhi", loc: "Red Cross Road, Connaught Place", dist: "5.1 km", hours: "8 AM – 8 PM", avail: ["O+", "A+", "B-", "AB-"] },
-            { name: "Fortis Blood Centre", loc: "Sector 62, Noida", dist: "8.4 km", hours: "24/7 Open", avail: ["A+", "B+", "O+", "O-", "AB+"] },
-            { name: "Apollo Blood Bank", loc: "Jasola, Delhi", dist: "12 km", hours: "7 AM – 10 PM", avail: ["O+", "A-", "B+"] },
-            { name: "Max Hospital Bank", loc: "Saket, Delhi", dist: "14 km", hours: "24/7 Open", avail: ["O+", "O-", "A+", "AB+", "B-"] },
-            { name: "Safdarjung Blood Bank", loc: "Safdarjung, Delhi", dist: "6.7 km", hours: "9 AM – 6 PM", avail: ["A+", "A-", "B+", "O+"] },
-        ];
-
-        const feedItems = [
-            { dot: "red", text: "🚨 O+ needed urgently in Delhi — AIIMS ICU", time: "Just now", emerg: true },
-            { dot: "green", text: "✅ New donor Priya S. (A+) registered in Noida", time: "2 min ago" },
-            { dot: "red", text: "🩸 B- blood needed in Ghaziabad — 2 units", time: "5 min ago" },
-            { dot: "green", text: "✅ Match found! Rahul K. contacted for O+ in Delhi", time: "8 min ago" },
-            { dot: "blue", text: "🏥 Red Cross Delhi received 12 units of O+", time: "12 min ago" },
-            { dot: "red", text: "🚨 AB- urgently needed — Fortis Noida", time: "15 min ago", emerg: true },
-            { dot: "green", text: "✅ Sneha P. completed donation at AIIMS", time: "20 min ago" },
-            { dot: "blue", text: "📢 Blood drive at Connaught Place tomorrow, 9 AM", time: "25 min ago" },
-            { dot: "green", text: "✅ Amit S. (O-) just registered in Delhi", time: "31 min ago" },
-            { dot: "red", text: "🩸 A+ needed — Safdarjung Hospital, Ward 3", time: "40 min ago" },
-        ];
-
-        // ──────────────── RENDER FUNCTIONS ────────────────
-        function renderDashFeed() {
-            const el = document.getElementById('dashFeed');
-            el.innerHTML = feedItems.slice(0, 5).map(f => `
+// ──────────────── RENDER FUNCTIONS ────────────────
+function renderDashFeed() {
+  const el = document.getElementById('dashFeed');
+  el.innerHTML = feedItems.slice(0,5).map(f => `
     <div class="feed-item">
       <div class="feed-dot ${f.dot}"></div>
       <div class="feed-body">
@@ -2169,11 +1078,11 @@
       </div>
     </div>
   `).join('');
-        }
+}
 
-        function renderFullFeed() {
-            const el = document.getElementById('fullFeed');
-            el.innerHTML = feedItems.map(f => `
+function renderFullFeed() {
+  const el = document.getElementById('fullFeed');
+  el.innerHTML = feedItems.map(f => `
     <div class="feed-item">
       <div class="feed-dot ${f.dot}"></div>
       <div class="feed-body">
@@ -2182,11 +1091,11 @@
       </div>
     </div>
   `).join('');
-        }
+}
 
-        function renderBanks() {
-            const el = document.getElementById('banksList');
-            el.innerHTML = bloodBanks.map(b => `
+function renderBanks() {
+  const el = document.getElementById('banksList');
+  el.innerHTML = bloodBanks.map(b => `
     <div class="bank-card">
       <div class="bank-icon-wrap">🏥</div>
       <div>
@@ -2197,7 +1106,7 @@
       <div class="bank-hours">🟢 ${b.hours}</div>
       <div>
         <div style="font-size:.75rem;color:var(--gray-500);margin-bottom:.35rem;font-weight:500">Available:</div>
-        <div class="bank-avail">${b.avail.map(a => `<span class="avail-badge">${a}</span>`).join('')}</div>
+        <div class="bank-avail">${b.avail.map(a=>`<span class="avail-badge">${a}</span>`).join('')}</div>
       </div>
       <div style="display:flex;gap:.6rem">
         <button class="btn btn-red btn-sm" style="flex:1">📞 Call</button>
@@ -2205,77 +1114,25 @@
       </div>
     </div>
   `).join('');
-        }
-
-
-        // get match details for a donor based on location and activity
-        function getMatchDetails(donor, userCity) {
-            let score = 0;
-            let reasons = [];
-
-            if (donor.city.toLowerCase() === userCity.toLowerCase()) {
-                score += 50;
-                reasons.push("📍 Same city");
-            }
-
-            if (donor.lastDon.includes("month") || donor.lastDon.includes("week")) {
-                score += 30;
-                reasons.push("🕒 Recently active");
-            }
-
-            score += 20;
-            reasons.push("✔ Available");
-
-            return { score, reasons };
-        }
-
-
-        // 
-
-
-       
-    //    i made changes here.
-        function renderBanksInline() {
-  const el = document.getElementById('banksListInline');
-  if (!el) return;
-
-  el.innerHTML = bloodBanks.slice(0, 3).map(b => `
-    <div class="bank-card">
-      <div class="bank-name">${b.name}</div>
-      <div class="bank-loc">📍 ${b.loc}</div>
-      <button class="btn btn-ghost btn-sm">Visit</button>
-    </div>
-  `).join('');
 }
 
-
-
-        function renderDonors(donors, requestCity, isEmergency) {
-            const el = document.getElementById('donorsList');
-            document.getElementById('donorCount').textContent = donors.length + ' found';
-            if (!donors.length) { el.innerHTML = ''; return; }
-            el.innerHTML = donors.map((d, i) => {
-                const nearYou = d.city.toLowerCase() === requestCity.toLowerCase();
-                const isBest = i === 0;
-
-                const { score, reasons } = getMatchDetails(d, requestCity); // made changes here.
-                const isEmerg = isEmergency;
-                return `
-        <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
-  <div class="donor-header">
-    <div class="donor-avatar">${d.name.charAt(0)}</div>
-    <div>
-      <div class="donor-name">${d.name} ${d.verified ? '✓' : ''}</div>
-      <div class="donor-meta">
-        ⭐ ${score}% match • 🕒 ${d.lastDon}
-      </div>
-    </div>
-  </div>
-
-  <!-- ✅ ADD THIS HERE -->
-  <div style="font-size:12px; margin:8px 0; color:gray;">
-    ${reasons.join(" • ")}
-  </div>
+function renderDonors(donors, requestCity, isEmergency) {
+  const el = document.getElementById('donorsList');
+  document.getElementById('donorCount').textContent = donors.length + ' found';
+  if (!donors.length) { el.innerHTML = ''; return; }
+  el.innerHTML = donors.map((d, i) => {
+    const nearYou = d.city.toLowerCase() === requestCity.toLowerCase();
+    const isBest = i === 0;
+    const isEmerg = isEmergency;
+    return `
+      <div class="donor-card ${isEmerg ? 'emergency' : ''} ${isBest ? 'best-match' : ''}">
+        <div class="donor-header">
+          <div class="donor-avatar">${d.name.charAt(0)}</div>
+          <div>
+            <div class="donor-name">${d.name} ${d.verified ? '✓' : ''}</div>
+            <div class="donor-meta">Last donated: ${d.lastDon}</div>
+          </div>
+        </div>
         <div class="donor-badges">
           <span class="badge badge-blood">🩸 ${d.blood}</span>
           <span class="badge badge-city">📍 ${d.city}</span>
@@ -2287,23 +1144,23 @@
         </div>
       </div>
     `;
-            }).join('');
-        }
+  }).join('');
+}
 
-        function renderBloodAvail() {
-            const el = document.getElementById('bloodAvailChart');
-            const types = [
-                { type: 'O+', pct: 85, color: '#dc2626' },
-                { type: 'A+', pct: 62, color: '#ea580c' },
-                { type: 'B+', pct: 74, color: '#d97706' },
-                { type: 'AB+', pct: 40, color: '#7c3aed' },
-                { type: 'O-', pct: 28, color: '#0284c7' },
-                { type: 'A-', pct: 55, color: '#059669' },
-                { type: 'B-', pct: 33, color: '#0891b2' },
-                { type: 'AB-', pct: 18, color: '#db2777' },
-            ];
-            el.innerHTML = `<div style="display:flex;flex-direction:column;gap:.65rem">` +
-                types.map(t => `
+function renderBloodAvail() {
+  const el = document.getElementById('bloodAvailChart');
+  const types = [
+    { type:'O+', pct:85, color:'#dc2626' },
+    { type:'A+', pct:62, color:'#ea580c' },
+    { type:'B+', pct:74, color:'#d97706' },
+    { type:'AB+', pct:40, color:'#7c3aed' },
+    { type:'O-', pct:28, color:'#0284c7' },
+    { type:'A-', pct:55, color:'#059669' },
+    { type:'B-', pct:33, color:'#0891b2' },
+    { type:'AB-', pct:18, color:'#db2777' },
+  ];
+  el.innerHTML = `<div style="display:flex;flex-direction:column;gap:.65rem">` +
+    types.map(t => `
       <div>
         <div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:600;color:var(--gray-700);margin-bottom:.25rem">
           <span>${t.type}</span><span>${t.pct}%</span>
@@ -2313,201 +1170,163 @@
         </div>
       </div>
     `).join('') + `</div>`;
-        }
+}
 
-        // ──────────────── NAVIGATION ────────────────
-        const sectionTitles = {
-            home: 'Dashboard', request: 'Request Blood', donate: 'Donate Blood',
-            banks: 'Blood Banks', feed: 'Live Feed', profile: 'My Profile'
-        };
+// ──────────────── NAVIGATION ────────────────
+const sectionTitles = {
+  home: 'Dashboard', request: 'Request Blood', donate: 'Donate Blood',
+  banks: 'Blood Banks', feed: 'Live Feed', profile: 'My Profile'
+};
 
-        function switchSection(id) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('section-' + id).classList.add('active');
-            document.getElementById('nav-' + id)?.classList.add('active');
-            document.getElementById('topbarTitle').textContent = sectionTitles[id] || '';
-            closeSidebar();
-            if (id === 'feed') renderFullFeed();
-            if (id === 'banks') renderBanks();
-        }
+function switchSection(id) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('nav-' + id)?.classList.add('active');
+  document.getElementById('topbarTitle').textContent = sectionTitles[id] || '';
+  closeSidebar();
+  if (id === 'feed') renderFullFeed();
+  if (id === 'banks') renderBanks();
+}
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebarOverlay').classList.toggle('show');
-        }
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebarOverlay').classList.remove('show');
-        }
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
 
-        // ──────────────── LANDING ↔ DASHBOARD ────────────────
-        function enterDashboard(section) {
-            showProgress();
-            setTimeout(() => {
-                document.getElementById('page-landing').style.display = 'none';
-                document.getElementById('page-dashboard').classList.add('active');
-                switchSection(section || 'home');
-                hideProgress();
-                setTimeout(() => showNotif(), 3000);
-            }, 600);
-        }
-        function enterLanding() {
-            document.getElementById('page-dashboard').classList.remove('active');
-            document.getElementById('page-landing').style.display = '';
-        }
+// ──────────────── LANDING ↔ DASHBOARD ────────────────
+function enterDashboard(section) {
+  showProgress();
+  setTimeout(() => {
+    document.getElementById('page-landing').style.display = 'none';
+    document.getElementById('page-dashboard').classList.add('active');
+    switchSection(section || 'home');
+    hideProgress();
+    setTimeout(() => showNotif(), 3000);
+  }, 600);
+}
+function enterLanding() {
+  document.getElementById('page-dashboard').classList.remove('active');
+  document.getElementById('page-landing').style.display = '';
+}
 
-        // ──────────────── FORM SUBMIT ────────────────
-        function submitRequest() {
-            const name = document.getElementById('req-name').value.trim();
-            const city = document.getElementById('req-city').value.trim() || 'Delhi';
-            const blood = document.querySelector('input[name="req-bg"]:checked')?.value || 'O+';
-            const urgency = document.querySelector('input[name="urgency"]:checked')?.value || 'normal';
+// ──────────────── FORM SUBMIT ────────────────
+function submitRequest() {
+  const name = document.getElementById('req-name').value.trim();
+  const city = document.getElementById('req-city').value.trim() || 'Delhi';
+  const blood = document.querySelector('input[name="req-bg"]:checked')?.value || 'O+';
+  const urgency = document.querySelector('input[name="urgency"]:checked')?.value || 'normal';
 
-            showProgress();
-            toggleBtnLoading('reqBtnText', 'reqSpinner', true);
+  showProgress();
+  toggleBtnLoading('reqBtnText','reqSpinner',true);
 
-            setTimeout(() => {
-                hideProgress();
-                toggleBtnLoading('reqBtnText', 'reqSpinner', false);
-                document.getElementById('reqBtnText').textContent = '✅ Donors Found!';
+  setTimeout(() => {
+    hideProgress();
+    toggleBtnLoading('reqBtnText','reqSpinner',false);
+    document.getElementById('reqBtnText').textContent = '✅ Donors Found!';
 
-                const matching = mockDonors.filter(d =>
-                    d.blood === blood || d.blood.replace(/[+-]/, '') === blood.replace(/[+-]/, '')
-                );
-                const isEmerg = urgency === 'emergency';
+    const matching = mockDonors.filter(d =>
+      d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')
+    );
+    const isEmerg = urgency === 'emergency';
 
-                const resultCard = document.getElementById('donorResultsCard');
-                const noCard = document.getElementById('noDonorsCard');
-                function submitRequest() {
-            const name = document.getElementById('req-name').value.trim();
-            const city = document.getElementById('req-city').value.trim() || 'Delhi';
-            const blood = document.querySelector('input[name="req-bg"]:checked')?.value || 'O+';
-            const urgency = document.querySelector('input[name="urgency"]:checked')?.value || 'normal';
+    const resultCard = document.getElementById('donorResultsCard');
+    const noCard = document.getElementById('noDonorsCard');
 
-            showProgress();
-            toggleBtnLoading('reqBtnText', 'reqSpinner', true);
+    if (matching.length) {
+      resultCard.style.display = 'block';
+      noCard.style.display = 'none';
+      document.getElementById('matchBanner').textContent = isEmerg
+        ? '🚨 Emergency mode — prioritizing nearest donors'
+        : '⭐ Best match found near you!';
+      renderDonors(matching, city, isEmerg);
+    } else {
+      resultCard.style.display = 'none';
+      noCard.style.display = 'block';
+    }
+    resultCard.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 1800);
+}
 
-            setTimeout(() => {
-                hideProgress();
-                toggleBtnLoading('reqBtnText', 'reqSpinner', false);
-                document.getElementById('reqBtnText').textContent = '✅ Donors Found!';
+function submitDonate() {
+  const name = document.getElementById('don-name').value.trim();
+  if (!name) { document.getElementById('don-name').focus(); return; }
 
-                const matching = mockDonors.filter(d =>
-                    d.blood === blood || d.blood.replace(/[+-]/, '') === blood.replace(/[+-]/, '')
-                );
-                const isEmerg = urgency === 'emergency';
+  showProgress();
+  toggleBtnLoading('donBtnText','donSpinner',true);
+  setTimeout(() => {
+    hideProgress();
+    toggleBtnLoading('donBtnText','donSpinner',false);
+    document.getElementById('donBtnText').textContent = '✅ Registered!';
+    document.getElementById('donSuccessMsg').classList.add('show');
+    addFeedItem('green', `✅ New donor ${name} just registered!`, 'Just now');
+  }, 1800);
+}
 
-                const resultCard = document.getElementById('donorResultsCard');
-                const noCard = document.getElementById('noDonorsCard');
+function toggleBtnLoading(textId, spinnerId, on) {
+  document.getElementById(textId).style.display = on ? 'none' : '';
+  document.getElementById(spinnerId).style.display = on ? 'block' : 'none';
+}
 
-                if (matching.length) {
-                    resultCard.style.display = 'block';
-                    noCard.style.display = 'none';
-                    document.getElementById('matchBanner').textContent = isEmerg
-                        ? '🚨 Emergency mode — prioritizing nearest donors'
-                        : '⭐ Best match found near you!';
-                    renderDonors(matching, city, isEmerg);
-                    renderBanksInline();
-                } else {
-                    resultCard.style.display = 'none';
-                    noCard.style.display = 'block';
-                }
-                resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 1800);
-        }
-                if (matching.length) {
-                    resultCard.style.display = 'block';
-                    noCard.style.display = 'none';
-                    document.getElementById('matchBanner').textContent = isEmerg
-                        ? '🚨 Emergency mode — prioritizing nearest donors'
-                        : '⭐ Best match found near you!';
-                    renderDonors(matching, city, isEmerg);
-                    renderBanksInline();
-                } else {
-                    resultCard.style.display = 'none';
-                    noCard.style.display = 'block';
-                }
-                resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 1800);
-        }
+function callDonor(phone) {
+  alert(`📞 Calling ${phone}…\n\n(In a real app, this would initiate a call or share contact details.)`)
+}
 
-        function submitDonate() {
-            const name = document.getElementById('don-name').value.trim();
-            if (!name) { document.getElementById('don-name').focus(); return; }
+// ──────────────── NOTIFICATIONS ────────────────
+function showNotif() {
+  const p = document.getElementById('notifPopup');
+  p.classList.remove('hide');
+  clearTimeout(window._notifTimer);
+  window._notifTimer = setTimeout(() => p.classList.add('hide'), 5000);
+}
+function closeNotif() { document.getElementById('notifPopup').classList.add('hide'); }
 
-            showProgress();
-            toggleBtnLoading('donBtnText', 'donSpinner', true);
-            setTimeout(() => {
-                hideProgress();
-                toggleBtnLoading('donBtnText', 'donSpinner', false);
-                document.getElementById('donBtnText').textContent = '✅ Registered!';
-                document.getElementById('donSuccessMsg').classList.add('show');
-                addFeedItem('green', `✅ New donor ${name} just registered!`, 'Just now');
-            }, 1800);
-        }
+// ──────────────── PROGRESS BAR ────────────────
+let _progTimer;
+function showProgress() {
+  const el = document.getElementById('topProgress');
+  el.style.width = '0';
+  el.style.transition = 'none';
+  setTimeout(() => { el.style.transition = 'width .5s ease'; el.style.width = '70%'; }, 10);
+}
+function hideProgress() {
+  const el = document.getElementById('topProgress');
+  el.style.width = '100%';
+  setTimeout(() => { el.style.width = '0'; el.style.transition = 'none'; }, 400);
+}
 
-        function toggleBtnLoading(textId, spinnerId, on) {
-            document.getElementById(textId).style.display = on ? 'none' : '';
-            document.getElementById(spinnerId).style.display = on ? 'block' : 'none';
-        }
+// ──────────────── LIVE FEED ────────────────
+const newFeedMessages = [
+  { dot:'red', text:'🚨 O- urgently needed in Gurugram — 3 units', emerg:true },
+  { dot:'green', text:'✅ New donor Aisha B. (B+) registered in Faridabad' },
+  { dot:'blue', text:'🏥 Apollo Delhi received fresh batch of AB+' },
+  { dot:'red', text:'🩸 A+ needed — Ganga Ram Hospital' },
+  { dot:'green', text:'✅ Match found — Kavita R. contacted for B+ in Delhi' },
+];
+let feedIdx = 0;
+function addFeedItem(dot, text, time) {
+  const feed = document.getElementById('dashFeed');
+  if (!feed) return;
+  const item = document.createElement('div');
+  item.className = 'feed-item';
+  item.innerHTML = `<div class="feed-dot ${dot}"></div><div class="feed-body"><div class="feed-text">${text}</div><div class="feed-time">${time}</div></div>`;
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 5) feed.removeChild(feed.lastChild);
+}
+setInterval(() => {
+  const msg = newFeedMessages[feedIdx % newFeedMessages.length];
+  feedIdx++;
+  addFeedItem(msg.dot, msg.text, 'Just now');
+  if (Math.random() > .6) showNotif();
+}, 8000);
 
-        function callDonor(phone) {
-            alert(`📞 Calling ${phone}…\n\n(In a real app, this would initiate a call or share contact details.)`)
-        }
-
-        // ──────────────── NOTIFICATIONS ────────────────
-        function showNotif() {
-            const p = document.getElementById('notifPopup');
-            p.classList.remove('hide');
-            clearTimeout(window._notifTimer);
-            window._notifTimer = setTimeout(() => p.classList.add('hide'), 5000);
-        }
-        function closeNotif() { document.getElementById('notifPopup').classList.add('hide'); }
-
-        // ──────────────── PROGRESS BAR ────────────────
-        let _progTimer;
-        function showProgress() {
-            const el = document.getElementById('topProgress');
-            el.style.width = '0';
-            el.style.transition = 'none';
-            setTimeout(() => { el.style.transition = 'width .5s ease'; el.style.width = '70%'; }, 10);
-        }
-        function hideProgress() {
-            const el = document.getElementById('topProgress');
-            el.style.width = '100%';
-            setTimeout(() => { el.style.width = '0'; el.style.transition = 'none'; }, 400);
-        }
-
-        // ──────────────── LIVE FEED ────────────────
-        const newFeedMessages = [
-            { dot: 'red', text: '🚨 O- urgently needed in Gurugram — 3 units', emerg: true },
-            { dot: 'green', text: '✅ New donor Aisha B. (B+) registered in Faridabad' },
-            { dot: 'blue', text: '🏥 Apollo Delhi received fresh batch of AB+' },
-            { dot: 'red', text: '🩸 A+ needed — Ganga Ram Hospital' },
-            { dot: 'green', text: '✅ Match found — Kavita R. contacted for B+ in Delhi' },
-        ];
-        let feedIdx = 0;
-        function addFeedItem(dot, text, time) {
-            const feed = document.getElementById('dashFeed');
-            if (!feed) return;
-            const item = document.createElement('div');
-            item.className = 'feed-item';
-            item.innerHTML = `<div class="feed-dot ${dot}"></div><div class="feed-body"><div class="feed-text">${text}</div><div class="feed-time">${time}</div></div>`;
-            feed.insertBefore(item, feed.firstChild);
-            if (feed.children.length > 5) feed.removeChild(feed.lastChild);
-        }
-        setInterval(() => {
-            const msg = newFeedMessages[feedIdx % newFeedMessages.length];
-            feedIdx++;
-            addFeedItem(msg.dot, msg.text, 'Just now');
-            if (Math.random() > .6) showNotif();
-        }, 8000);
-
-        // ──────────────── INIT ────────────────
-        renderDashFeed();
-        renderBloodAvail();
-    </script>
+// ──────────────── INIT ────────────────
+renderDashFeed();
+renderBloodAvail();
+</script>
 </body>
-
 </html>
