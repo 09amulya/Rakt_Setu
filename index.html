@@ -662,8 +662,8 @@
       <div class="sidebar-user">
         <div class="user-avatar">AK</div>
         <div>
-          <div class="user-name">Aryan Kumar</div>
-          <div class="user-type">O+ Donor · Delhi</div>
+          <div class="user-name" id="userEmail">Loading...</div>
+<div class="user-type">Logged User</div>
         </div>
       </div>
     </div>
@@ -941,16 +941,11 @@
 
         <div class="profile-header-card">
           <div class="profile-avatar-lg">AK</div>
-          <div>
-            <div class="profile-name-lg">Aryan Kumar</div>
-            <div style="font-size:.88rem;opacity:.8;margin-top:.2rem">aryan.kumar@email.com · +91 98765 43210</div>
-            <div class="profile-blood-type">🩸 O+ Blood Group</div>
-            <div class="profile-stats">
-              <div class="profile-stat"><div class="profile-stat-val">4</div><div class="profile-stat-lbl">Donations</div></div>
-              <div class="profile-stat"><div class="profile-stat-val">2</div><div class="profile-stat-lbl">Requests</div></div>
-              <div class="profile-stat"><div class="profile-stat-val">12</div><div class="profile-stat-lbl">Lives Touched</div></div>
-            </div>
-          </div>
+          <div class="profile-name-lg" id="profileName">Loading...</div>
+
+<div id="profileEmail" style="font-size:.88rem;opacity:.8;margin-top:.2rem">
+  Loading...
+</div>
         </div>
 
         <div class="two-col">
@@ -1061,6 +1056,51 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("👤 Logged in:", user.email);
+
+    // 🔹 SIDEBAR EMAIL
+    const sidebarEmail = document.getElementById("userEmail");
+    if (sidebarEmail) {
+      sidebarEmail.textContent = user.email;
+    }
+
+    // 🔹 AVATAR INITIALS
+    const avatar = document.querySelector(".user-avatar");
+    if (avatar) {
+      avatar.textContent = user.email.substring(0,2).toUpperCase();
+    }
+
+    // 🔹 PROFILE NAME
+    const profileName = document.getElementById("profileName");
+    if (profileName) {
+      profileName.textContent = user.email.split("@")[0];
+    }
+
+    // 🔹 PROFILE EMAIL
+    const profileEmail = document.getElementById("profileEmail");
+    if (profileEmail) {
+      profileEmail.textContent = user.email;
+    }
+
+  } else {
+    console.log("🚪 No user logged in");
+  }
+});
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("👤 Logged in:", user.email);
+
+    document.getElementById("userEmail").textContent = user.email;
+
+    const initials = user.email.substring(0,2).toUpperCase();
+    document.querySelector(".user-avatar").textContent = initials;
+
+  } else {
+    console.log("🚪 No user");
+  }
+});
 
 console.log("🔥 Firebase Connected");
 </script>
