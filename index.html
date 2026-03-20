@@ -790,7 +790,7 @@
 
           <div>
             <div class="card" id="donorResultsCard" style="display:none">
-              <div class="match-banner" id="matchBanner">⭐ Best match found near you!</div>
+              <div class="match-banner" id="matchBanner"> Best match found near you!</div>
               <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
               <div class="donors-grid" id="donorsList"></div>
             </div>
@@ -800,6 +800,9 @@
                 <div class="empty-title">No donors found</div>
                 <div class="empty-sub">Try a different blood group or nearby city</div>
               </div>
+            <div class="landing-btns">
+                <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
+                <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
             </div>
           </div>
         </div>
@@ -1029,47 +1032,71 @@
         </div>
       </div>
 
-    </div><!-- /content-area -->
-  </div><!-- /main-content -->
-</div><!-- /page-dashboard -->
+            </div><!-- /content-area -->
+        </div><!-- /main-content -->
+    </div><!-- /page-dashboard -->
 
-<script>
-// ──────────────── MOCK DATA ────────────────
-const mockDonors = [
-  { name:"Rahul Kumar", blood:"O+", city:"Delhi", phone:"98765-43210", lastDon:"2 months ago", verified:true },
-  { name:"Priya Sharma", blood:"O+", city:"Delhi", phone:"87654-32109", lastDon:"3 months ago", verified:true },
-  { name:"Amit Singh", blood:"O-", city:"Noida", phone:"76543-21098", lastDon:"1 month ago", verified:false },
-  { name:"Sneha Patel", blood:"A+", city:"Delhi", phone:"65432-10987", lastDon:"45 days ago", verified:true },
-  { name:"Ravi Verma", blood:"B+", city:"Ghaziabad", phone:"54321-09876", lastDon:"6 weeks ago", verified:true },
-  { name:"Kavya Nair", blood:"AB+", city:"Delhi", phone:"43210-98765", lastDon:"2 weeks ago", verified:false },
-];
+    <script>
+        // ──────────────── MOCK DATA ────────────────
+        const mockDonors = [
+            { name: "Rahul Kumar", blood: "O+", city: "Delhi", phone: "98765-43210", lastDon: "2 months ago", verified: true },
+            { name: "Priya Sharma", blood: "O+", city: "Delhi", phone: "87654-32109", lastDon: "3 months ago", verified: true },
+            { name: "Amit Singh", blood: "O-", city: "Noida", phone: "76543-21098", lastDon: "1 month ago", verified: false },
+            { name: "Sneha Patel", blood: "A+", city: "Delhi", phone: "65432-10987", lastDon: "57 days ago", verified: true },
+            { name: "Ravi Verma", blood: "B+", city: "Ghaziabad", phone: "54321-09876", lastDon: "6 weeks ago", verified: true },
+            { name: "Kavya Nair", blood: "AB+", city: "Delhi", phone: "87210-98765", lastDon: "9 weeks ago", verified: false },
+        ];
 
-const bloodBanks = [
-  { name:"AIIMS Blood Bank", loc:"Ansari Nagar, Delhi", dist:"2.3 km", hours:"24/7 Open", avail:["O+","A+","B+","AB+","O-"] },
-  { name:"Red Cross Delhi", loc:"Red Cross Road, Connaught Place", dist:"5.1 km", hours:"8 AM – 8 PM", avail:["O+","A+","B-","AB-"] },
-  { name:"Fortis Blood Centre", loc:"Sector 62, Noida", dist:"8.4 km", hours:"24/7 Open", avail:["A+","B+","O+","O-","AB+"] },
-  { name:"Apollo Blood Bank", loc:"Jasola, Delhi", dist:"12 km", hours:"7 AM – 10 PM", avail:["O+","A-","B+"] },
-  { name:"Max Hospital Bank", loc:"Saket, Delhi", dist:"14 km", hours:"24/7 Open", avail:["O+","O-","A+","AB+","B-"] },
-  { name:"Safdarjung Blood Bank", loc:"Safdarjung, Delhi", dist:"6.7 km", hours:"9 AM – 6 PM", avail:["A+","A-","B+","O+"] },
-];
+        // Smart Match score
+        function getMatchDetails(donor, userCity) {
+            let score = 0;
+            let reasons = [];
 
-const feedItems = [
-  { dot:"red", text:"🚨 O+ needed urgently in Delhi — AIIMS ICU", time:"Just now", emerg:true },
-  { dot:"green", text:"✅ New donor Priya S. (A+) registered in Noida", time:"2 min ago" },
-  { dot:"red", text:"🩸 B- blood needed in Ghaziabad — 2 units", time:"5 min ago" },
-  { dot:"green", text:"✅ Match found! Rahul K. contacted for O+ in Delhi", time:"8 min ago" },
-  { dot:"blue", text:"🏥 Red Cross Delhi received 12 units of O+", time:"12 min ago" },
-  { dot:"red", text:"🚨 AB- urgently needed — Fortis Noida", time:"15 min ago", emerg:true },
-  { dot:"green", text:"✅ Sneha P. completed donation at AIIMS", time:"20 min ago" },
-  { dot:"blue", text:"📢 Blood drive at Connaught Place tomorrow, 9 AM", time:"25 min ago" },
-  { dot:"green", text:"✅ Amit S. (O-) just registered in Delhi", time:"31 min ago" },
-  { dot:"red", text:"🩸 A+ needed — Safdarjung Hospital, Ward 3", time:"40 min ago" },
-];
+            if (donor.city.toLowerCase() === userCity.toLowerCase()) {
+                score += 50;
+                reasons.push("📍 Same city");
+            }
 
-// ──────────────── RENDER FUNCTIONS ────────────────
-function renderDashFeed() {
-  const el = document.getElementById('dashFeed');
-  el.innerHTML = feedItems.slice(0,5).map(f => `
+            if (donor.lastDon.includes("month") || donor.lastDon.includes("week")) {
+                score += 30;
+                reasons.push("🕒 Recently active");
+            }
+
+            score += 20;
+            reasons.push("✔ Available");
+
+            return { score, reasons };
+        }
+
+        // 
+
+
+        const bloodBanks = [
+            { name: "AIIMS Blood Bank", loc: "Ansari Nagar, Delhi", dist: "2.3 km", hours: "24/7 Open", avail: ["O+", "A+", "B+", "AB+", "O-"] },
+            { name: "Red Cross Delhi", loc: "Red Cross Road, Connaught Place", dist: "5.1 km", hours: "8 AM – 8 PM", avail: ["O+", "A+", "B-", "AB-"] },
+            { name: "Fortis Blood Centre", loc: "Sector 62, Noida", dist: "8.4 km", hours: "24/7 Open", avail: ["A+", "B+", "O+", "O-", "AB+"] },
+            { name: "Apollo Blood Bank", loc: "Jasola, Delhi", dist: "12 km", hours: "7 AM – 10 PM", avail: ["O+", "A-", "B+"] },
+            { name: "Max Hospital Bank", loc: "Saket, Delhi", dist: "14 km", hours: "24/7 Open", avail: ["O+", "O-", "A+", "AB+", "B-"] },
+            { name: "Safdarjung Blood Bank", loc: "Safdarjung, Delhi", dist: "6.7 km", hours: "9 AM – 6 PM", avail: ["A+", "A-", "B+", "O+"] },
+        ];
+
+        const feedItems = [
+            { dot: "red", text: "🚨 O+ needed urgently in Delhi — AIIMS ICU", time: "Just now", emerg: true },
+            { dot: "green", text: "✅ New donor Priya S. (A+) registered in Noida", time: "2 min ago" },
+            { dot: "red", text: " B- blood needed in Ghaziabad — 2 units", time: "5 min ago" },
+            { dot: "green", text: "✅ Match found! Rahul K. contacted for O+ in Delhi", time: "8 min ago" },
+            { dot: "blue", text: "🏥 Red Cross Delhi received 12 units of O+", time: "12 min ago" },
+            { dot: "red", text: "🚨 AB- urgently needed — Fortis Noida", time: "15 min ago", emerg: true },
+            { dot: "green", text: "✅ Sneha P. completed donation at AIIMS", time: "20 min ago" },
+            { dot: "blue", text: "📢 Blood drive at Connaught Place tomorrow, 9 AM", time: "25 min ago" },
+            { dot: "green", text: "✅ Amit S. (O-) just registered in Delhi", time: "31 min ago" },
+            { dot: "red", text: "🩸 A+ needed — Safdarjung Hospital, Ward 3", time: "40 min ago" },
+        ];
+
+        // ──────────────── RENDER FUNCTIONS ────────────────
+        function renderDashFeed() {
+            const el = document.getElementById('dashFeed');
+            el.innerHTML = feedItems.slice(0, 5).map(f => `
     <div class="feed-item">
       <div class="feed-dot ${f.dot}"></div>
       <div class="feed-body">
