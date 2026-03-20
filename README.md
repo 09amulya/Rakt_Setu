@@ -80,7 +80,6 @@ RaktSetu provides:
 * Backend integration for real-time data
 * Authentication system
 * GPS-based donor matching
-* Medical eligibility (cooldown system)
 * Notification system
 
 ---
