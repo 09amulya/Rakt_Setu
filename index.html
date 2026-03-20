@@ -371,7 +371,7 @@
     display: flex; align-items: center; gap: 1.5rem; position: relative; overflow: hidden;
   }
   .profile-header-card::after {
-    content: ; position: absolute; right: 2rem; bottom: -10px;
+    content: ""; position: absolute; right: 2rem; bottom: -10px;
     font-size: 6rem; opacity: .12;
   }
   .profile-avatar-lg {
@@ -601,6 +601,13 @@
       <div class="landing-logo"><span></span> RaktSetu</div>
     <div class="landing-tagline">Connecting Lives, One Drop at a Time</div>
   
+     <div style="margin-top:2rem; max-width:300px; margin-inline:auto;">
+         <input id="email" placeholder="Email" class="form-control" style="margin-bottom:.5rem">
+         <input id="password" type="password" placeholder="Password" class="form-control" style="margin-bottom:.5rem">
+
+        <button class="btn btn-red" onclick="signUp()">Sign Up</button>
+         <button class="btn btn-ghost" onclick="login()" style="margin-top:.5rem">Login</button>
+      </div>
 
     <div class="landing-btns">
       <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
@@ -1038,7 +1045,8 @@
 
 <!-- Firebase FIRST -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 <!-- Firebase CONFIG -->
 <script>
@@ -1052,6 +1060,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 console.log("🔥 Firebase Connected");
 </script>
@@ -1399,6 +1408,34 @@ setInterval(() => {
   addFeedItem(msg.dot, msg.text, 'Just now');
   if (Math.random() > .6) ;
 }, 8000);
+
+function signUp() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      alert("Account Created ✅");
+      enterDashboard();
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      alert("Login Success ✅");
+      enterDashboard();
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
 
 // ──────────────── INIT ────────────────
 window.onload = () => {
