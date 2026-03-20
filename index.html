@@ -1574,6 +1574,20 @@
                     <div class="stat-label">Cities</div>
                 </div>
             </div>
+          </div>
+
+          <div>
+            <div class="card" id="donorResultsCard" style="display:none">
+              <div class="match-banner" id="matchBanner"> Best match found near you!</div>
+              <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
+              <div class="donors-grid" id="donorsList"></div>
+            </div>
+            <div class="card" id="noDonorsCard" style="display:none">
+              <div class="empty-state">
+                <div class="empty-icon">😔</div>
+                <div class="empty-title">No donors found</div>
+                <div class="empty-sub">Try a different blood group or nearby city</div>
+              </div>
             <div class="landing-btns">
                 <button class="btn-primary btn-request" onclick="enterDashboard('request')">🆘 Request Blood</button>
                 <button class="btn-primary btn-donate" onclick="enterDashboard('donate')">🩸 Donate Blood</button>
@@ -2133,7 +2147,7 @@
         const feedItems = [
             { dot: "red", text: "🚨 O+ needed urgently in Delhi — AIIMS ICU", time: "Just now", emerg: true },
             { dot: "green", text: "✅ New donor Priya S. (A+) registered in Noida", time: "2 min ago" },
-            { dot: "red", text: "🩸 B- blood needed in Ghaziabad — 2 units", time: "5 min ago" },
+            { dot: "red", text: " B- blood needed in Ghaziabad — 2 units", time: "5 min ago" },
             { dot: "green", text: "✅ Match found! Rahul K. contacted for O+ in Delhi", time: "8 min ago" },
             { dot: "blue", text: "🏥 Red Cross Delhi received 12 units of O+", time: "12 min ago" },
             { dot: "red", text: "🚨 AB- urgently needed — Fortis Noida", time: "15 min ago", emerg: true },
