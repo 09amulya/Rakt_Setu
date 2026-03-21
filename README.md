@@ -3,6 +3,8 @@
 RaktSetu is a smart blood donation and request platform designed to bridge the gap between donors and patients in real-time. It leverages a clean UI, eligibility filtering, and simulated AI-like matching to ensure that only the most suitable donors are shown.
 
 ---
+## Live Link
+link - https://adityaupadhyay01.github.io/Rakt_Setu_AlgoMind/
 
 ##  Features
 
