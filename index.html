@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -797,7 +798,7 @@
           <div>
             <div class="card" id="donorResultsCard" style="display:none">
               <div class="match-banner" id="matchBanner"> Best match found near you!</div>
-              <button class="btn btn-green btn-sm" onclick="downloadPDF()" style="margin-bottom:1rem">
+              <button id="downloadBtn" class="btn btn-green btn-sm" onclick="downloadPDF()" style="margin-bottom:1rem; display:none;">
   📄 Download Donor Report
 </button>
               <div class="card-title">👥 Matching Donors <span id="donorCount" style="background:var(--red-pale);color:var(--red-deep);font-size:.72rem;padding:.15rem .5rem;border-radius:50px;font-weight:600;margin-left:.5rem"></span></div>
@@ -1448,7 +1449,7 @@ function renderMatchingBanks(banks) {
   </button>
 
   <!-- 🔽 HIDDEN PANEL -->
-   <div id="health-${i}" style="
+    <div id="health-${i}" style="
   display:none;
   margin-top:.9rem;
   padding:1rem;
@@ -1463,27 +1464,66 @@ function renderMatchingBanks(banks) {
      Medical Summary
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+  ${
+    d.health ? `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
 
-    <div> Hemoglobin</div>
-    <div><strong>${d.health.hemoglobin} g/dL</strong></div>
+        <div>Hemoglobin</div>
+        <div><strong>${d.health.hemoglobin} g/dL</strong></div>
 
-    <div>Blood Pressure</div>
-    <div><strong>${d.health.bloodPressure}</strong></div>
+        <div>Blood Pressure</div>
+        <div><strong>${d.health.bloodPressure}</strong></div>
 
-    <div>Weight</div>
-    <div><strong>${d.health.weight} kg</strong></div>
+        <div>Weight</div>
+        <div><strong>${d.health.weight} kg</strong></div>
 
-    <div>Last Donation</div>
-    <div><strong>${d.health.lastDonationDays} days ago</strong></div>
+        <div>Last Donation</div>
+        <div><strong>${d.health.lastDonationDays} days ago</strong></div>
 
-    <div> Hydration</div>
-    <div><strong>${d.health.hydration}</strong></div>
+        <div>Hydration</div>
+        <div><strong>${d.health.hydration}</strong></div>
 
-    <div>Last Checkup</div>
-    <div><strong>${d.health.lastCheckup}</strong></div>
+        <div>Last Checkup</div>
+        <div><strong>${d.health.lastCheckup}</strong></div>
 
-  </div>
+      </div>
+
+      <div style="margin-top:.7rem">
+         Overall Status: 
+        <strong>${d.health.status}</strong>
+      </div>
+
+      ${
+        d.health.diseases?.length
+          ? `<div style="margin-top:.5rem;color:#b91c1c">
+                Conditions: ${d.health.diseases.join(', ')}
+             </div>`
+          : ''
+      }
+
+      ${
+        d.health.risk
+          ? `<div style="margin-top:.5rem;color:#dc2626;font-weight:600">
+                Risk: ${d.health.risk}
+             </div>`
+          : ''
+      }
+
+    `
+    : `
+      <div style="text-align:center;color:#6b7280">
+        🟡 No medical data available<br>
+        <span style="font-size:.75rem">
+          This donor is registered but hasn't completed health verification.
+        </span>
+      </div>
+    `
+  }
+
+</div>
+ 
+
+     
 
   <div style="margin-top:.7rem">
      Overall Status: 
@@ -1603,6 +1643,7 @@ function submitRequest() {
   (d.blood === blood || d.blood.replace(/[+-]/,'') === blood.replace(/[+-]/,'')) 
   && d.health.eligibility
 );
+window.currentDonors = matching;
     
     const isEmerg = urgency === 'emergency';
 
@@ -1611,10 +1652,12 @@ function submitRequest() {
 
     if (matching.length) {
       resultCard.style.display = 'block';
+      document.getElementById("downloadBtn").style.display = "inline-block";
       noCard.style.display = 'none';
       document.getElementById('matchBanner').textContent = isEmerg
         ? 'Emergency mode — prioritizing nearest donors'
         : ' Best match found near you!';
+        
       renderDonors(matching, city, isEmerg);
     } else {
       resultCard.style.display = 'none';
@@ -1667,7 +1710,10 @@ function loadDonors() {
 
       if (donors.length > 0) {
         document.getElementById('donorResultsCard').style.display = 'block';
-        renderDonors(donors, "Delhi", false);
+         const eligibleDonors = donors.filter(d => d.health?.eligibility);
+renderDonors(eligibleDonors, "Delhi", false);
+
+window.currentDonors = eligibleDonors;
       }
     })
     .catch((err) => console.error(err));
@@ -1755,6 +1801,48 @@ window.onload = () => {
   renderBloodAvail();
   loadDonors();
 };
+
+function downloadPDF() {
+  if (!window.currentDonors || window.currentDonors.length === 0) {
+    alert("No eligible donors to download!");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("RaktSetu - Eligible Donor Report", 20, 20);
+
+  let y = 30;
+
+  window.currentDonors.forEach((d, i) => {
+    doc.setFontSize(12);
+    doc.text(`${i + 1}. ${d.name}`, 20, y);
+    y += 6;
+
+    doc.text(`Blood: ${d.blood}`, 25, y);
+    y += 6;
+
+    doc.text(`City: ${d.city}`, 25, y);
+    y += 6;
+
+    doc.text(`Phone: ${d.phone}`, 25, y);
+    y += 10;
+  });
+
+  doc.save("Eligible_Donors.pdf");
+}
+function toggleHealth(index) {
+  const el = document.getElementById(`health-${index}`);
+  if (!el) return;
+
+  if (el.style.display === "none" || el.style.display === "") {
+    el.style.display = "block";
+  } else {
+    el.style.display = "none";
+  }
+}
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
