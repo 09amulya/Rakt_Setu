@@ -111,11 +111,11 @@ RaktSetu/
 ---
 
 
-Team-
-Amulya Pratap Singh
-Ananya Rastogi
-Aashini Singh
-Aditya Upadhyay
+## Team-
+* Amulya Pratap Singh
+* Ananya Rastogi
+* Aashini Singh
+* Aditya Upadhyay
 
 
 ---
